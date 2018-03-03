@@ -12,24 +12,26 @@ class ClusterLogger
 		@token = @client.client_credentials.get_token
 	end
 
-	def update_logger(user_list)
-		#TODO: Get the intra login for users
+	def update_logger(user_list, endpoint = "/v2/locations")
 
-		endpoint = "/v2/locations"
-	
-		response = @token.get(endpoint + "?" + "filter[user_id]=" + user_list.join(','))
+		return [] unless user_list.count != 0
+
+		response = @token.get("#{endpoint}?filter[user_id]=#{user_list.join(',')}")
 		#response = @token.get(endpoint)
 
-		connected = []
+		return unless response.status == 200
 
-		if (response.status == 200)
-			response.parsed.each { |data|
-				if (data['end_at'] == nil)
-					connected.push(data['user']['login'])
-					print(data['user']['login'] + " is connected")
-				end
-			}
-		end
+		connected = []
+		response.parsed.each { |data|
+
+			next unless data['end_at'].nil?
+
+			connected.push(data['user']['login'])
+
+			p "#{data['user']['login']} is connected"
+		}
+
+		return connected;
 	end
 
 end

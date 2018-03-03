@@ -1,0 +1,23 @@
+[
+	{
+		"hour": 2,
+		"messages": [
+			"{slack_ping} has left, his weakness has no limits (#{readable_time})",
+			"{slack_ping} dispears, you're already leaving ?"
+		]
+	},
+	{
+		"hour": 4,
+		"messages": [
+			"{slack_ping} oollo",
+			"{slack_ping} feiojewiogjw"
+		]
+	},
+	{
+		"hour": 100,
+		"messages": [
+			"{slack_ping} oollo",
+			"{slack_ping} feiojewiogjw"
+		]
+	}
+]

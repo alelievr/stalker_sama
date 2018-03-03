@@ -6,16 +6,25 @@ cluster = ClusterLogger.new
 slack = SlackBot.new
 db = UserDatabase.new
 
-user_list = ["19857"];
-
 while true
 
-	connected_logins = cluster.update_logger(user_list);
+	users = db.get_users()
 
-	#TODO: diff with db and slack send API
-	#db.get_users()
+	connected_logins = cluster.update_logger(users.map{|u| u[:api42_id]});
 
-	#db.update_connected(connected_logins)
+	users.each{ |user|
+		if connected_logins.include? user[:login42]
+			if !user[:connected]
+				slack.send_connected_message(user[:login42], user[:slack_id])
+			end
+		else
+			if user[:connected]
+				slack.send_disconnected_message(user[:login42], user[:slack_id], Time.now - Time.parse(user[:last_connected]))
+			end
+		end
+	}
+
+	db.update_connected(connected_logins)
 
 	sleep 10
 end
