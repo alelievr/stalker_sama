@@ -33,8 +33,11 @@ class UserDatabase
 	end
 
 	def update_connected(connected_logins)
-		@users.where(connected_logins.include?(Sequel[:login42])).update(:connected => 'true')
-		@users.where(!connected_logins.include?(Sequel[:login42])).update(:connected => 'false')
+		
+		puts connected_logins
+
+		@users.update(:connected => 'false')
+		@users.where(login42: connected_logins).update(connected: true)
 	end
 
 end

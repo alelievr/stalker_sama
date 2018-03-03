@@ -10,19 +10,24 @@ while true
 
 	users = db.get_users()
 
-	connected_logins = cluster.update_logger(users.map{|u| u[:api42_id]});
+	connected_infos = cluster.update_logger(users.map{|u| u[:api42_id]});
 
 	users.each{ |user|
-		if connected_logins.include? user[:login42]
+		secs = Time.now - Time.parse(user[:last_connected])
+		user_info = connected_infos.detect{|i| i[:login] == user[:login42]}
+		opts = {secs: secs, seat: user_info[:seat]}
+		if user_info.nil?
 			if !user[:connected]
-				slack.send_connected_message(user[:login42], user[:slack_id])
+				slack.send_connected_message(user[:login42], user[:slack_id], opts)
 			end
 		else
 			if user[:connected]
-				slack.send_disconnected_message(user[:login42], user[:slack_id], Time.now - Time.parse(user[:last_connected]))
+				slack.send_disconnected_message(user[:login42], user[:slack_id], opts)
 			end
 		end
 	}
+
+	connected_logins = connected_infos.map{ |i| i[:login] }
 
 	db.update_connected(connected_logins)
 

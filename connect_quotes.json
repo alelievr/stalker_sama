@@ -1,9 +1,28 @@
 [
 	{
-		"hour": 10000,
+		"hour": 24,
 		"messages": [
-			"{slack_ping} just log in",
-			"{slack_ping} has arrived !"
+			"{ping} just log in {seat}",
+			"{ping} has arrived ! {seat}"
+		]
+	},
+	{
+		"hour": 72,
+		"messages": [
+			"{ping} came back in {seat}"
+		]
+	},
+	{
+		"hour": 168,
+		"messages": [
+			"{ping} long time no see ? {seat}"
+		]
+	},
+	{
+		"hour": 100000000,
+		"messages": [
+			"{ping} He's alive (at {seat})!",
+			"{ping} It's a miracle, come in {seat} to see this !"
 		]
 	}
 ]

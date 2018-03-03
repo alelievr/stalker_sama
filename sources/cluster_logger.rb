@@ -24,9 +24,11 @@ class ClusterLogger
 		connected = []
 		response.parsed.each { |data|
 
-			next unless data['end_at'].nil?
+			next unless data['end_at'].nil? or data['primary'] == false
 
-			connected.push(data['user']['login'])
+			puts data['host']
+
+			connected.push({login: data['user']['login'], seat: data['host']})
 
 			p "#{data['user']['login']} is connected"
 		}

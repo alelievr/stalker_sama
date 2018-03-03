@@ -19,12 +19,15 @@ class SlackBot
 		@client = Slack::Web::Client.new
 	end
 
-	def pick_random_from_hours(user_hours, quotes)
+	def pick_random_from_hours(user_secs, quotes)
+		user_hours = user_secs / 60 / 60
+
 		quotes.each { |quote|
 			next unless quote['hour'] >= user_hours
 
 			return quote['messages'].sample
 		}
+		throw "You're not supposed to be here"
 	end
 
 	def send_message(message)
@@ -45,26 +48,26 @@ class SlackBot
 	end
 
 
-	def format_message(message, login42, slack_id, secs)
+	def format_message(message, login42, slack_id, opts = {})
 		infos = @client.users_info(user: slack_id);
 
-		JSON.dump(infos)
-
-		message.gsub! '{slack_ping}', "<@#{infos.user.name}>(#{login42})"
-		message.gsub! '{login42}', "#{login42}"
-		message.gsub! '{hours}', "#{(secs / 60).round(2)}"
-		message.gsub! '{secs}', "#{secs}"
-		message.gsub! '{readable_time}', "#{humanize(secs)}"
+		message.gsub! '{ping}', "<@#{infos.user.name}>"
+		message.gsub! '{42_login}', login42
+		message.gsub! '{slack_login}', infos.user.name
+		message.gsub! '{time}', humanize(opts[:secs].to_f).to_s
+		message.gsub! '{seat}', opts[:seat]
 
 		return message
 	end
 
-	def send_connected_message(login42, slack_id)
-		send_message(format_message(pick_random_from_hours(0, @connect_quotes), login42, slack_id, 0))
+	def send_connected_message(login42, slack_id, opts = {})
+		quote = pick_random_from_hours(opts[:secs], @connect_quotes)
+		send_message(format_message(quote, login42, slack_id, opts))
 	end
 
-	def send_disconnected_message(login42, slack_id, hours)
-		send_message(format_message(pick_random_from_hours(hours, @disconnect_quotes), login42, slack_id, hours))
+	def send_disconnected_message(login42, slack_id, opts = {})
+		quote = pick_random_from_hours(opts[:secs], @disconnect_quotes)
+		send_message(format_message(quote, login42, slack_id, opts))
 	end
 
 	def get_user_id(user_login)
