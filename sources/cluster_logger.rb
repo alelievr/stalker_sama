@@ -23,7 +23,7 @@ class ClusterLogger
 			time = Time.now.strftime("%G-W%V-%uT%T")
 			uri = "#{endpoint}?filter[user_id]=#{user_list.join(',')}&sort=-end_at&filter[-end_at]&page=#{i}"
 
-			initialize() if @token.expires_in < 200
+			initialize if (Time.now.to_i - @token.expires_at).abs < 200
 			response = @token.get(uri)
 
 			break if response.parsed.all? {|p| !p['end_at'].nil? }
@@ -40,6 +40,8 @@ class ClusterLogger
 
 				p "#{data['user']['login']} is connected"
 			}
+
+			sleep 3
 
 		end
 

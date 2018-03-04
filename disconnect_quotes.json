@@ -11,7 +11,7 @@
 			"{ping} weakness level over 9000 ! ({time})",
 			"{ping} scored {time}, I hope you segfault in hell.",
 			"{time}, You gotta be fucking kidding me {ping} ???",
-			"{ping} and you call that a \"developer\" ? ({time})",
+			"{ping} and you call that a `developer` ? ({time})",
 			"{42_login} you should better not go tosleep before you fixed all your bugs ! ({time})",
 			"{42_long} Coffee time ? ({time})",
 			"{ping} Heisenbug will catch you ! ({time})",

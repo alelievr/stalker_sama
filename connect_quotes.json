@@ -8,14 +8,14 @@
 			"A wild {42_login} appeared in {seat}",
 			"{42_login} just show up, hold my beer ({seat})",
 			"rm: /: Permission denied. Oh {ping} how are you today ? ({seat})",
-			"{ping} I love the smell of bugs in the morning not you ?",
-			"{ping} SHALL WE PLAY A GAME?",
-			"Welcome back {42_login} ♥ --",
-			"Hello {42_login}, what about trying ':(){ :|:& };:' in your terminal ?",
-			"Greetings, human {42_login}",
-			"{ping} See you in shell !",
+			"{ping} I love the smell of bugs in the morning not you ? ({seat})",
+			"{ping} is conected, SHALL WE PLAY A GAME ? ({seat})",
+			"Welcome back {42_login} ♥ -- ({seat})",
+			"Hello {42_login}, what about trying ':(){ :|:& };:' in your terminal ? ({seat})",
+			"Greetings, human {42_login} ({seat})",
+			"{ping} See you in shell ! ({seat})",
 			"THE CAKE IS A PIE ! oh it's just you {42_login} ({seat})",
-			"Hello {ping}, did you know that *(ut64*)buffer ought to be illegal ?",
+			"Hello {ping}, did you know that *(ut64*)buffer ought to be illegal ? ({seat})",
 			"{seat} {ping} Select your character: RBin Wizard, Master Anal Paladin, or Assembly Warrior"
 		]
 	},
@@ -46,8 +46,8 @@
 		"messages": [
 			"{ping}({42_login}) He's alive (at {seat})!",
 			"{ping}({42_login}) It's a miracle, come in {seat} to see this !",
-			"Wow {ping}({42_login}), I didn't expect to see you so soon...",
-			"Aaaaaand {ping}({42_login}) break a new times the world record of the longest break !"
+			"Wow {ping}({42_login}), I didn't expect to see you so soon... ({seat})",
+			"Aaaaaand {ping}({42_login}) break a new times the world record of the longest break ! ({seat})"
 		]
 	}
 ]

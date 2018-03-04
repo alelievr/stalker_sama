@@ -1,11 +1,13 @@
 require_relative "cluster_logger.rb"
 require_relative "user_database.rb"
+require_relative "slack_pinger.rb"
 require_relative "slack_bot.rb"
 require "awesome_print"
 
 cluster = ClusterLogger.new
-slack = SlackBot.new
+slack = SlackPinger.new
 db = UserDatabase.new
+SlackBot.new
 
 while true
 

@@ -1,10 +1,8 @@
 require 'slack-ruby-client'
-require 'json'
+require 'awesome_print'
+require_relative 'user_database.rb'
 
 class SlackBot
-
-	#CHAN = "#général"
-	CHAN = "#clusters-test"
 
 	def initialize
 		Slack.configure do |config|
@@ -14,77 +12,53 @@ class SlackBot
 			raise 'Missing ENV[SLACK_API_TOKEN]!' unless config.token
 		end
 
-		@connect_quotes = JSON.parse(File.read("./connect_quotes.json"))
-		@disconnect_quotes = JSON.parse(File.read("./disconnect_quotes.json"))
-
-		@client = Slack::Web::Client.new
-	end
-
-	def pick_random_from_hours(user_secs, quotes)
-		user_hours = user_secs / 60 / 60
-
-		quotes.each { |quote|
-			next unless quote['hour'] >= user_hours
-
-			return quote['messages'].sample
-		}
-		throw "You're not supposed to be here"
-	end
-
-	def send_message(message)
-		return if message == nil || message == ""
-
-		puts "Sending message: #{message}"
-
-		@client.chat_postMessage(channel: CHAN, text: message, as_user: true, link_names: 1)
-	end
-
-	def humanize secs
-		[[60, :seconds], [60, :minutes], [24, :hours], [1000, :days]].map{ |count, name|
-			if secs > 0
-				secs, n = secs.divmod(count)
-				"#{n.to_i} #{name}"
-			end
-		}.compact.reverse.join(' ')
-	end
+		@ud = UserDatabase.new
 
 
-	def format_message(message, login42, slack_id, opts = {})
-		infos = @client.users_info(user: slack_id);
+		@client = Slack::RealTime::Client.new
 
-		message.gsub! '{ping}', "<@#{infos.user.name}>"
-		message.gsub! '{42_login}', login42
-		message.gsub! '{slack_login}', infos.user.name
-		message.gsub! '{time}', humanize(opts[:secs].to_f).to_s
-		message.gsub! '{seat}', opts[:seat]
+		@client.on :message do |data| onMessage(data) end
 
-		return message
-	end
-
-	def send_connected_message(login42, slack_id, opts = {})
-		quote = pick_random_from_hours(opts[:secs], @connect_quotes)
-		send_message(format_message(quote, login42, slack_id, opts))
-	end
-
-	def send_disconnected_message(login42, slack_id, opts = {})
-		quote = pick_random_from_hours(opts[:secs], @disconnect_quotes)
-		send_message(format_message(quote, login42, slack_id, opts))
-	end
-
-	def get_user_id(user_login)
-		login = user_login
-	
-		@client.users_list(presence: true, limit: 10) do |response|
-			r = response.members.detect{ |r| r.profile.real_name == user_login || r.profile.display_name == user_login || r.name == user_login }
-			login = r.name if !r.nil?
-			break if !r.nil?
+		@client.on :hello do
+			  puts "Successfully connected, welcome '#{@client.self.name}' to the '#{@client.team.name}' team at https://#{@client.team.domain}.slack.com."
 		end
-		
-		puts "Using slack name #{login}"
 
-		infos = @client.users_info(user: "@#{login}")
+		@client.on :close do |_data|
+			  puts 'Connection closing, exiting.'
+		end
 
-		return infos.user.id
+		@client.on :closed do |_data|
+			  puts 'Connection has been disconnected.'
+		end
+
+		@client.start!
+
 	end
 
+	def sendMessage(chan, text)
+		@client.typing channel: chan
+		@client.message channel: chan, text: text
+	end
+
+	def onMessage(data)
+		#data:
+		#"type" => "message",
+		#"channel" => "D9JE10EBG",
+		#"user" => "U9GUFLZ9N",
+		#"text" => "yo",
+		#"ts" => "1520183877.000114",
+		#"source_team" => "T9B6RUSKT",
+		#"team" => "T9B6RUSKT"
+
+		case data.text
+		when 'bot hi' then
+			sendMessage(data.channel, "Hi <@#{data.user}>!")
+		when /.*cluster.*/i, /.*stalker.*/i then
+			case data.text
+			when /.*who.*connected.*/i then
+				sendMessage(data.channel, @ud.get_users().map{|u| "#{u[:login42]} @ #{u[:last_seat]}" if u[:connected]}.compact.join("\n"))
+			end
+		end
+
+	end
 end
