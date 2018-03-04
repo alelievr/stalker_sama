@@ -2,33 +2,33 @@
 	{
 		"hour": 2,
 		"messages": [
-			"{ping} has left, his weakness has no limits ({time})",
-			"{ping} diseppears, you're already leaving after {time} ?",
-			"{ping} disconnects, but you just arrived ! ({time})",
-			"{ping} has left, did you see him ? ({time})",
-			"{ping} diseppears after {time}, shame !",
-			"{ping} is faster than Usain Bolt !",
-			"{ping} weakness level over 9000 !"
+			"{42_login} has left, his weakness has no limits ({time})",
+			"{42_login} diseppears, you're already leaving after {time} ?",
+			"{42_login} disconnects, but you just arrived ! ({time})",
+			"{42_login} has left, did you see him ? ({time})",
+			"{42_login} diseppears after {time}, shame !",
+			"{42_login} is faster than Usain Bolt !",
+			"{42_login} weakness level over 9000 !"
 		]
 	},
 	{
 		"hour": 8,
 		"messages": [
-			"{ping} only stayed {time}, you're weak today !",
-			"{ping} has left, if you think it's enought ..."
+			"{42_login} only stayed {time}, you're weak today !",
+			"{42_login} has left, if you think it's enought ..."
 		]
 	},
 	{
 		"hour": 24,
 		"messages": [
-			"{ping} has left after {time}, what a player",
-			"{ping} successfully disconnect himself after {time}, GG !"
+			"{42_login} has left after {time}, what a player",
+			"{42_login} successfully disconnect himself after {time}, GG !"
 		]
 	},
 	{
 		"hour": 400,
 		"messages": [
-			"{ping} has left, after a long, epic and tough fight of {time}, a well deserved rest"
+			"{42_login} has left, after a long, epic and tough fight of {time}, a well deserved rest"
 		]
 	}
 ]

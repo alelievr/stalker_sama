@@ -1,6 +1,7 @@
 require_relative "cluster_logger.rb"
 require_relative "user_database.rb"
 require_relative "slack_bot.rb"
+require "awesome_print"
 
 cluster = ClusterLogger.new
 slack = SlackBot.new
@@ -9,6 +10,8 @@ db = UserDatabase.new
 while true
 
 	users = db.get_users()
+
+	#ap users
 
 	connected_infos = cluster.update_logger(users.map{|u| u[:api42_id]});
 

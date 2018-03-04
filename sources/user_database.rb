@@ -20,8 +20,6 @@ class UserDatabase
 		end
 		stm1.close
 
-		@users = @db.from(USER_TABLE)
-
 	end
 
 	def add_user(login42, api42_id, slack_id, logged, last_connected, level)
@@ -37,16 +35,18 @@ class UserDatabase
 	end
 
 	def get_users
+		@users = @db.from(USER_TABLE)
+
 		return @users.all
 	end
 
 	def update_connected(connected_logins)
-		@users.update(:connected => 'false')
-		@users.where(login42: connected_logins).update(connected: true)
+		@users.where(login42: connected_logins).update(connected: 'true')
+		@users.exclude(login42: connected_logins).update(connected: 'false')
 	end
 
 	def update_time(login42)
-		@users.where(login42: login42).update(last_connected: Time.now)
+		@users.where(login42: login42).update(last_connected: Time.now.to_s)
 	end
 
 end
