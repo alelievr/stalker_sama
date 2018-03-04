@@ -71,7 +71,17 @@ class SlackBot
 	end
 
 	def get_user_id(user_login)
-		infos = @client.users_info(user: "@#{user_login}")
+		login = user_login
+	
+		@client.users_list(presence: true, limit: 10) do |response|
+			r = response.members.detect{ |r| r.profile.real_name == user_login || r.profile.display_name == user_login || r.name == user_login }
+			login = r.name if !r.nil?
+			break if !r.nil?
+		end
+		
+		puts "Using slack name #{login}"
+
+		infos = @client.users_info(user: "@#{login}")
 
 		return infos.user.id
 	end

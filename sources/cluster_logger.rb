@@ -16,17 +16,19 @@ class ClusterLogger
 
 		return [] unless user_list.count != 0
 
-		response = @token.get("#{endpoint}?filter[user_id]=#{user_list.join(',')}")
-		#response = @token.get(endpoint)
+		begin
+			response = @token.get("#{endpoint}?filter[user_id]=#{user_list.join(',')}")
+		rescue
+			initialize()
+			return []
+		end
 
-		return unless response.status == 200
+		return [] unless response.status == 200
 
 		connected = []
 		response.parsed.each { |data|
 
-			next unless data['end_at'].nil? or data['primary'] == false
-
-			puts data['host']
+			next unless data['end_at'].nil?
 
 			connected.push({login: data['user']['login'], seat: data['host']})
 
