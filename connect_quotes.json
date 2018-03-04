@@ -6,36 +6,48 @@
 			"{42_login} has arrived ! {seat}",
 			"{42_login} just landed in {seat}",
 			"A wild {42_login} appeared in {seat}",
-			"{42_login} just show up, hold my beer"
+			"{42_login} just show up, hold my beer ({seat})",
+			"rm: /: Permission denied. Oh {ping} how are you today ? ({seat})",
+			"{ping} I love the smell of bugs in the morning not you ?",
+			"{ping} SHALL WE PLAY A GAME?",
+			"Welcome back {42_login} ♥ --",
+			"Hello {42_login}, what about trying ':(){ :|:& };:' in your terminal ?",
+			"Greetings, human {42_login}",
+			"{ping} See you in shell !",
+			"THE CAKE IS A PIE ! oh it's just you {42_login} ({seat})",
+			"Hello {ping}, did you know that *(ut64*)buffer ought to be illegal ?",
+			"{seat} {ping} Select your character: RBin Wizard, Master Anal Paladin, or Assembly Warrior"
 		]
 	},
 	{
 		"hour": 72,
 		"messages": [
 			"{42_login} came back in {seat}",
-			"{42_login} we were expecting you ( ͡° ͜ʖ ͡°) {seat}",
+			"{ping} we were expecting you ( ͡° ͜ʖ ͡°) {seat}",
 			"{42_login} we hope you brought pizza, get them in {seat}",
-			"{42_login} just joined. Hide your bananas !",
-			"{42_login} just log in, where were you ?"
+			"{42_login} just joined. Hide your bananas ! ({seat})",
+			"{42_login} just log in, where were you ? ({seat})",
+			"{ping} Welcome back in {seat}, lazy human !"
 		]
 	},
 	{
 		"hour": 168,
 		"messages": [
 			"{42_login} long time no see ? ({seat})",
-			"{42_login} Who are you ? {seat} is a restricted seat only for 42 student",
-			"{42_login} how did it get so late so soon ({seat})",
+			"{ping} Who are you ? {seat} is a restricted seat only for 42 student",
+			"{ping} how did it get so late so soon ({seat})",
 			"{42_login} I could tell that you're late but I prefer chronologically challenged. ({seat})",
-			"{42_login} do you know that fall into a spatio-temporal rift is not a pretext to be in late ?"
+			"{ping} do you know that fall into a spatio-temporal rift is not a pretext to be in late ? ({seat})",
+			"{42_login} I thought we were friends. :_ ({seat})"
 		]
 	},
 	{
 		"hour": 100000000,
 		"messages": [
-			"{42_login} He's alive (at {seat})!",
-			"{42_login} It's a miracle, come in {seat} to see this !",
-			"Wow {42_login}, I didn't expect to see you so soon...",
-			"Aaaaaand {42_login} break a new times the world record of the longest break !"
+			"{ping}({42_login}) He's alive (at {seat})!",
+			"{ping}({42_login}) It's a miracle, come in {seat} to see this !",
+			"Wow {ping}({42_login}), I didn't expect to see you so soon...",
+			"Aaaaaand {ping}({42_login}) break a new times the world record of the longest break !"
 		]
 	}
 ]

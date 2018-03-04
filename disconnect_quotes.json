@@ -4,31 +4,51 @@
 		"messages": [
 			"{42_login} has left, his weakness has no limits ({time})",
 			"{42_login} diseppears, you're already leaving after {time} ?",
-			"{42_login} disconnects, but you just arrived ! ({time})",
-			"{42_login} has left, did you see him ? ({time})",
+			"{ping} disconnects, but you just arrived ! ({time})",
+			"{ping} has left, did you see him ? ({time})",
 			"{42_login} diseppears after {time}, shame !",
-			"{42_login} is faster than Usain Bolt !",
-			"{42_login} weakness level over 9000 !"
+			"{42_login} is faster than Usain Bolt ! (only {time})",
+			"{ping} weakness level over 9000 ! ({time})",
+			"{ping} scored {time}, I hope you segfault in hell.",
+			"{time}, You gotta be fucking kidding me {ping} ???",
+			"{ping} and you call that a \"developer\" ? ({time})",
+			"{42_login} you should better not go tosleep before you fixed all your bugs ! ({time})",
+			"{42_long} Coffee time ? ({time})",
+			"{ping} Heisenbug will catch you ! ({time})",
+			"{ping} I know what you are doing. ({time})",
+			"{ping} Drop his keyboard and RUN! ({time})",
+			"{ping} This is what I hate most about guys like you. You didn't even try. ({time})",
+			"{ping} How much will you pay me for not disclosing this ? ({time})",
+			"{ping} Procrastination is opportunity's assassin. ({time})"
 		]
 	},
 	{
 		"hour": 8,
 		"messages": [
 			"{42_login} only stayed {time}, you're weak today !",
-			"{42_login} has left, if you think it's enought ..."
+			"{ping}({42_login}) has left, if you think it's enought ...",
+			"{42_login} has left, let's call it a day ...",
+			"[1] 546484 segmentation fault ./{ping} after {time}",
+			"/dev/{42_login}/brain: No such file or directory.",
+			"{42_login} WASTED in only {time}",
+			"{ping} you're already leaving us ? ({time})",
+			"{ping} tried to leave, this incident will be reported ! ({time})",
+			"{ping} No fix, no sleep !"
 		]
 	},
 	{
 		"hour": 24,
 		"messages": [
 			"{42_login} has left after {time}, what a player",
+			"{ping} May the segfault be with you. ({time})",
 			"{42_login} successfully disconnect himself after {time}, GG !"
 		]
 	},
 	{
 		"hour": 400,
 		"messages": [
-			"{42_login} has left, after a long, epic and tough fight of {time}, a well deserved rest"
+			"{ping}({42_login}) has left, after a long, epic and tough fight of {time}, a well deserved rest",
+			"{ping}({42_login}) Are you a wizard ? {time}"
 		]
 	}
 ]

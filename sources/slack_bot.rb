@@ -3,7 +3,8 @@ require 'json'
 
 class SlackBot
 
-	CHAN = "#général"
+	#CHAN = "#général"
+	CHAN = "#clusters-test"
 
 	def initialize
 		Slack.configure do |config|

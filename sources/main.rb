@@ -11,9 +11,12 @@ while true
 
 	users = db.get_users()
 
-	#ap users
-
 	connected_infos = cluster.update_logger(users.map{|u| u[:api42_id]});
+
+	#puts "Users:"
+	#ap users
+	#puts "Connected infos:"
+	#ap connected_infos
 
 	users.each{ |user|
 		secs = Time.now - Time.parse(user[:last_connected])
@@ -21,6 +24,10 @@ while true
 		a = user_info[:seat] if user_info
 		a ||= ''
 		opts = {secs: secs, seat: a}
+
+		#puts "User info:"
+		#ap user_info
+
 		if user_info.nil?
 			if user[:connected]
 				slack.send_disconnected_message(user[:login42], user[:slack_id], opts)
@@ -36,7 +43,11 @@ while true
 
 	connected_logins = connected_infos.map{ |i| i[:login] }
 
-	db.update_connected(connected_logins)
+	begin
+		db.update_connected(connected_logins)
+	rescue e
+		puts "42 API update error: #{e}"
+	end
 
 	sleep 10
 end
