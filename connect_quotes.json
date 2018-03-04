@@ -3,26 +3,39 @@
 		"hour": 24,
 		"messages": [
 			"{ping} just log in {seat}",
-			"{ping} has arrived ! {seat}"
+			"{ping} has arrived ! {seat}",
+			"{ping} just landed in {seat}",
+			"A wild {ping} appeared in {seat}",
+			"{ping} just show up, hold my beer"
 		]
 	},
 	{
 		"hour": 72,
 		"messages": [
-			"{ping} came back in {seat}"
+			"{ping} came back in {seat}",
+			"{ping} we were expecting you ( ͡° ͜ʖ ͡°) {seat}",
+			"{ping} we hope you brought pizza, get them in {seat}",
+			"{ping} just joined. Hide your bananas !",
+			"{ping} just log in, where were you ?"
 		]
 	},
 	{
 		"hour": 168,
 		"messages": [
-			"{ping} long time no see ? {seat}"
+			"{ping} long time no see ? ({seat})",
+			"{ping} Who are you ? {seat} is a restricted seat only for 42 student",
+			"{ping} how did it get so late so soon ({seat})",
+			"{ping} I could tell that you're late but I prefer chronologically challenged. ({seat})",
+			"{ping} do you know that fall into a spatio-temporal rift is not a pretext to be in late ?"
 		]
 	},
 	{
 		"hour": 100000000,
 		"messages": [
 			"{ping} He's alive (at {seat})!",
-			"{ping} It's a miracle, come in {seat} to see this !"
+			"{ping} It's a miracle, come in {seat} to see this !",
+			"Wow {ping}, I didn't expect to see you so soon...",
+			"Aaaaaand {ping} break a new times the world record of the longest break !"
 		]
 	}
 ]

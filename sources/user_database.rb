@@ -42,7 +42,11 @@ class UserDatabase
 
 	def update_connected(connected_logins)
 		@users.update(:connected => 'false')
-		@users.where(login42: connected_logins).update(connected: true, last_connected: Time.now)
+		@users.where(login42: connected_logins).update(connected: true)
+	end
+
+	def update_time(login42)
+		@users.where(login42: login42).update(last_connected: Time.now)
 	end
 
 end

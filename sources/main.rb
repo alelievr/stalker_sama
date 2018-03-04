@@ -21,10 +21,12 @@ while true
 		if user_info.nil?
 			if user[:connected]
 				slack.send_disconnected_message(user[:login42], user[:slack_id], opts)
+				db.update_time(user[:login42])
 			end
 		else
 			if !user[:connected]
 				slack.send_connected_message(user[:login42], user[:slack_id], opts)
+				db.update_time(user[:login42])
 			end
 		end
 	}

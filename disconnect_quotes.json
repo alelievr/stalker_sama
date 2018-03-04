@@ -3,21 +3,32 @@
 		"hour": 2,
 		"messages": [
 			"{ping} has left, his weakness has no limits ({time})",
-			"{ping} dispears, you're already leaving ?"
+			"{ping} diseppears, you're already leaving after {time} ?",
+			"{ping} disconnects, but you just arrived ! ({time})",
+			"{ping} has left, did you see him ? ({time})",
+			"{ping} diseppears after {time}, shame !",
+			"{ping} is faster than Usain Bolt !",
+			"{ping} weakness level over 9000 !"
 		]
 	},
 	{
-		"hour": 4,
+		"hour": 8,
+		"messages": [
+			"{ping} only stayed {time}, you're weak today !",
+			"{ping} has left, if you think it's enought ..."
+		]
+	},
+	{
+		"hour": 24,
 		"messages": [
 			"{ping} has left after {time}, what a player",
 			"{ping} successfully disconnect himself after {time}, GG !"
 		]
 	},
 	{
-		"hour": 100,
+		"hour": 400,
 		"messages": [
-			"{ping} has left after {time}, what a player",
-			"{ping} successfully disconnect himself after {time}, GG !"
+			"{ping} has left, after a long, epic and tough fight of {time}, a well deserved rest"
 		]
 	}
 ]
