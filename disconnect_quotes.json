@@ -19,7 +19,8 @@
 			"{ping} Drop his keyboard and RUN! ({time})",
 			"{ping} This is what I hate most about guys like you. You didn't even try. ({time})",
 			"{ping} How much will you pay me for not disclosing this ? ({time})",
-			"{ping} Procrastination is opportunity's assassin. ({time})"
+			"{ping} Procrastination is opportunity's assassin. ({time})",
+			"{ping} rage quit after {time}"
 		]
 	},
 	{
@@ -33,7 +34,8 @@
 			"{42_login} WASTED in only {time}",
 			"{ping} you're already leaving us ? ({time})",
 			"{ping} tried to leave, this incident will be reported ! ({time})",
-			"{ping} No fix, no sleep !"
+			"{ping} No fix, no sleep !",
+			"{ping} Wait ! I found a bug in your code !"
 		]
 	},
 	{
@@ -41,7 +43,9 @@
 		"messages": [
 			"{42_login} has left after {time}, what a player",
 			"{ping} May the segfault be with you. ({time})",
-			"{42_login} successfully disconnect himself after {time}, GG !"
+			"{42_login} successfully disconnect himself after {time}, GG !",
+			"Sarah Connor ..., i mean {ping} has left after {time}",
+			"{ping} has left for The Hard ROP Cafe ! after {time} of coding"
 		]
 	},
 	{

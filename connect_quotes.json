@@ -16,7 +16,8 @@
 			"{ping} See you in shell ! ({seat})",
 			"THE CAKE IS A PIE ! oh it's just you {42_login} ({seat})",
 			"Hello {ping}, did you know that *(ut64*)buffer ought to be illegal ? ({seat})",
-			"{seat} {ping} Select your character: RBin Wizard, Master Anal Paladin, or Assembly Warrior"
+			"{seat} {ping} Select your character: RBin Wizard, Master Anal Paladin, or Assembly Warrior",
+			"{ping} log On. Hack In. Go Anywhere (mostly {seat}). Get Everything."
 		]
 	},
 	{
