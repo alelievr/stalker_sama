@@ -1,51 +1,57 @@
-require "oauth2"
-require "json"
-require "awesome_print"
+require 'json'
+require 'awesome_print'
+require_relative 'api42'
 
-class ClusterLogger
+class ClusterLogger < Api42
+  def update_logger(user_list, endpoint = '/v2/locations')
+    return [] unless user_list.count != 0
 
-	UID = ENV['API42_UID']
-	SECRET = ENV['API42_SECRET']
+    connected = []
 
-	def initialize()
+    [1..10].map do |page|
+      response = send_uri("#{endpoint}?filter[user_id]=#{user_list.join(',')}&sort=-end_at&filter[-end_at]&page=#{page}")
 
-		@client = OAuth2::Client.new(UID, SECRET, site: "https://api.intra.42.fr")
-		@token = @client.client_credentials.get_token
-	end
+      break if response.all? { |p| !p['end_at'].nil? }
 
-	def update_logger(user_list, endpoint = "/v2/locations")
+      # ap response
 
-		return [] unless user_list.count != 0
+      response.each do |data|
+        next unless data['end_at'].nil?
 
-		connected = []
+        connected.push({ login: data['user']['login'], seat: data['host'] })
 
-		for i in 1..10
-			time = Time.now.strftime("%G-W%V-%uT%T")
-			uri = "#{endpoint}?filter[user_id]=#{user_list.join(',')}&sort=-end_at&filter[-end_at]&page=#{i}"
+        p "#{data['user']['login']} is connected"
+      end
 
-			initialize if (Time.now.to_i - @token.expires_at).abs < 200
-			response = @token.get(uri)
+      sleep 3
+    end
 
-			break if response.parsed.all? {|p| !p['end_at'].nil? }
+    connected
+  end
 
-			throw "Bad api status: #{response.status}" unless response.status == 200
+  def update_user(connected_infos, user, slack, db)
+    secs = Time.now - Time.parse(user[:last_connected])
+    user_info = connected_infos.detect { |i| i[:login] == user[:login42] }
+    a = user_info[:seat] if user_info
+    a ||= ''
+    opts = { secs: secs, seat: a }
 
-			#ap response.parsed
+    if user_info.nil?
+      if user[:connected]
+        slack.send_disconnected_message(user[:login42], user[:slack_id], opts)
+        db.update_time(user[:login42])
+      end
+    else
+      unless user[:connected]
+        slack.send_connected_message(user[:login42], user[:slack_id], opts)
+        db.update_time(user[:login42])
+      end
+    end
+  end
 
-			response.parsed.each { |data|
-
-				next unless data['end_at'].nil?
-
-				connected.push({login: data['user']['login'], seat: data['host']})
-
-				p "#{data['user']['login']} is connected"
-			}
-
-			sleep 3
-
-		end
-
-		return connected;
-	end
-
+  def update_users(connected_infos, db)
+    db.update_connected(connected_infos.map { |i| i[:login] })
+  rescue e
+    puts "42 API update error: #{e}"
+  end
 end
