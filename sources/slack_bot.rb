@@ -66,14 +66,14 @@ class SlackBot
 
 		ap data
 		case data.text
-		when /hi/i, /hey/i
+		when /(\W+hi|^hi|\W+hey|^hey|^hello|\W+hello)\W+/i
 			sendMessage(data.channel, "Hi <@#{data.user}> !")
 		when /where.*you/i
 			sendMessage(data.channel, "In your back !")
 		when /who.*connected/i then
 			sendMessage(data.channel, @ud.get_users().map{ |u| "#{u[:login42]} @ #{u[:last_seat]}" if u[:connected] }.compact.join("\n"))
 		else
-			q = data.text.sub(/.*(stalker[s]?|cluster[s]?)\s*[\?\.,!:]/i, '')
+			q = data.text.sub(/.*(stalker[s]?|cluster[s]?)\s*[\?\.,!:]*/i, '')
 			sendMessage(data.channel, askGoogle(q))
 		end
 
@@ -88,6 +88,8 @@ class SlackBot
             cx: ENV['GOOGLE_CSE_ID']
         })
         result = results['items'].first if results['items']
+
+		return "Daily search limit exedeed !" if results['error'] && results['error']['code'] == 403
         if result
           	message = result['title'] + "\n" + result['link']
         else
