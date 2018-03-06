@@ -5,5 +5,5 @@ do
 	nc -l 4200
 	cd ~/stalker_sama && git pull
 	./stop.sh
-	./run.sh
+	./run.sh > stalker.log &
 done

@@ -6,6 +6,7 @@ require_relative 'slack_bot.rb'
 require 'awesome_print'
 
 cluster = ClusterLogger.new
+sleep 1.5
 project = ProjectLogger.new
 slack = SlackPinger.new
 db = UserDatabase.new
@@ -20,8 +21,13 @@ while true
   users = db.get_users
   users_api42_ids = users.map { |u| u[:api42_id] }
 
-  connected_infos = cluster.update_logger(users_api42_ids)
-  projects_infos = project.get_infos(users_api42_ids)
+  begin
+  	connected_infos = cluster.update_logger(users_api42_ids)
+  	projects_infos = project.get_infos(users_api42_ids)
+  rescue Exception => e
+	puts "En error occured: #{e.message}"
+	next
+  end
 
   #puts "Users:"
   #ap users

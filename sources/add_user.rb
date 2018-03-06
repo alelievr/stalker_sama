@@ -21,7 +21,7 @@ if ARGV[0] && ARGV[1]
 	exit -1 unless res.status == 200
 
 	opts[:logged] = res.parsed[0]['end_at'].nil?
-	opts[:last_login] = opts[:logged] ? res.parsed[0]['begin_at'] : res.parsed[0]['end_at']
+	opts[:last_connected] = opts[:logged] ? res.parsed[0]['begin_at'] : res.parsed[0]['end_at']
 	opts[:last_seat] = res.parsed[0]['host']
 
 	res = token.get("/v2/cursus_users?filter[user_id]=#{api42_id}&cursus_id=1")
