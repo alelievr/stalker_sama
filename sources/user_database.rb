@@ -48,11 +48,15 @@ class UserDatabase
     @users.exclude(login42: connected_logins).update(connected: 'false')
   end
 
-  def update_user(login, field, value)
-    @users.where(login42: login).update(field => value)
+  def update_user(login42, field, value)
+    @users.where(login42: login42).update(field => value)
   end
 
-  def update_time(login42)
-    @users.where(login42: login42).update(last_connected: Time.now.to_s)
+  def update_time(login42, time)
+    @users.where(login42: login42).update(last_connected: time)
+  end
+
+  def update_host(login42, host)
+	@users.where(login42: login42).update(last_seat: host)
   end
 end

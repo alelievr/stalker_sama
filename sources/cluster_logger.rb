@@ -13,18 +13,18 @@ class ClusterLogger < Api42
 
       break if response.all? { |p| !p['end_at'].nil? }
 
-      # ap response
+      #ap response
 
       response.each do |data|
         next unless data['end_at'].nil?
 
         connected.push({ login: data['user']['login'], seat: data['host'] })
-
-        p "#{data['user']['login']} is connected"
       end
 
       sleep 3
     end
+
+	ap connected
 
     connected
   end
@@ -39,13 +39,14 @@ class ClusterLogger < Api42
     if user_info.nil?
       if user[:connected]
         slack.send_disconnected_message(user[:login42], user[:slack_id], opts)
-        db.update_time(user[:login42])
+        db.update_time(user[:login42], user[:end_at])
       end
     else
       unless user[:connected]
         slack.send_connected_message(user[:login42], user[:slack_id], opts)
-        db.update_time(user[:login42])
+        db.update_time(user[:login42], user[:begin_at])
       end
+	  db.update_host(user[:login42], user[:host])
     end
   end
 

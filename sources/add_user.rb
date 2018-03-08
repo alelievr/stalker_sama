@@ -1,3 +1,4 @@
+#!env ruby
 require 'oauth2'
 require_relative "slack_pinger.rb"
 require_relative "user_database.rb"
