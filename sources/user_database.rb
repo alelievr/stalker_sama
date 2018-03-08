@@ -51,12 +51,4 @@ class UserDatabase
   def update_user(login42, field, value)
     @users.where(login42: login42).update(field => value)
   end
-
-  def update_time(login42, time)
-    @users.where(login42: login42).update(last_connected: time)
-  end
-
-  def update_host(login42, host)
-	@users.where(login42: login42).update(last_seat: host)
-  end
 end

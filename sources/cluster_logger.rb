@@ -39,14 +39,14 @@ class ClusterLogger < Api42
     if user_info.nil?
       if user[:connected]
         slack.send_disconnected_message(user[:login42], user[:slack_id], opts)
-        db.update_time(user[:login42], user[:end_at])
+        db.update_user(user[:login42], :last_connected, user[:end_at])
       end
     else
       unless user[:connected]
         slack.send_connected_message(user[:login42], user[:slack_id], opts)
-        db.update_time(user[:login42], user[:begin_at])
+        db.update_user(user[:login42], :last_connected, user[:begin_at])
       end
-	  db.update_host(user[:login42], user[:host])
+	  db.update_user(user[:login42], :last_seat, user[:host])
     end
   end
 
