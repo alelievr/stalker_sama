@@ -70,7 +70,9 @@ class SlackBot
 			sendMessage(data.channel, "Hi <@#{data.user}> !")
 		when /where.*you/i
 			sendMessage(data.channel, "In your back !")
-		when /who.*connected/i then
+		when /is.*weak.*\?/
+			sendMessage(data.channel, "Yes !")
+		when /who.*connected/i
 			sendMessage(data.channel, @ud.get_users().map{ |u| "#{u[:login42]} @ #{u[:last_seat]}" if u[:connected] }.compact.join("\n"))
 		else
 			q = data.text.sub(/.*(stalker[s]?|cluster[s]?)\s*[\?\.,!:]*/i, '')
