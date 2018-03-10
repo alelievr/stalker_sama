@@ -48,7 +48,7 @@ class ClusterLogger < Api42
 		puts "connect timestamp: #{user[:begin_at]}"
         db.update_user(user[:login42], :last_connected, Time.now)
       end
-	  db.update_user(user[:login42], :last_seat, user[:host])
+	  db.update_user(user[:login42], :last_seat, user_info[:seat])
     end
   end
 
