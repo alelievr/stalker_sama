@@ -2,7 +2,8 @@ require 'slack-ruby-client'
 require 'json'
 
 class SlackPinger
-  CHAN = '#général'.freeze
+  CHAN = '#stalker'.freeze
+  # CHAN = '#général'.freeze
   # CHAN = '#clusters-test'.freeze
 
   def initialize
