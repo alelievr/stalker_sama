@@ -9,14 +9,11 @@ cluster = ClusterLogger.new
 sleep 1.5
 project = ProjectLogger.new
 slack = SlackPinger.new
-db = UserDatabase.new
 SlackBot.new
 
-# def project_update(projects_infos, user)
-#   project_info = projects_infos.detect { |i| i[:login] == user[:login42] }
-# end
-
 while true
+
+  db = UserDatabase.new
 
   users = db.get_users
   users_api42_ids = users.map { |u| u[:api42_id] }
@@ -29,10 +26,12 @@ while true
 	next
   end
 
-  #puts "Users:"
-  #ap users
-  #puts "Connected infos:"
-  #ap connected_infos
+  #connected_infos.reject!{|i| i[:login] == "flevesqu" || i[:login] == "alelievr" || i[:login] == "nboulaye"}
+
+  puts "Users: #{Time.now}"
+  ap users
+  puts "Connected infos: - "
+  ap connected_infos
 
   users.each do |user|
     cluster.update_user(connected_infos, user, slack, db)
