@@ -6,7 +6,6 @@ require_relative 'slack_bot.rb'
 require 'awesome_print'
 
 cluster = ClusterLogger.new
-sleep 1.5
 project = ProjectLogger.new
 slack = SlackPinger.new
 SlackBot.new
@@ -42,6 +41,8 @@ while true
   end
 
   cluster.update_users(connected_infos, db)
+
+  db.close
 
   sleep 10
 end
