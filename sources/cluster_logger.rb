@@ -11,14 +11,10 @@ class ClusterLogger < Api42
     [1..10].map do |page|
       response = send_uri("#{endpoint}?filter[user_id]=#{user_list.join(',')}&sort=-end_at&filter[-end_at]&page=#{page}")
 
-      break if response.all? { |p| !p['end_at'].nil? }
-
-      #ap response
-
       response.each do |data|
         next unless data['end_at'].nil?
 
-        connected.push({ login: data['user']['login'], seat: data['host'] })
+        connected.push({ login: data['user']['login'], seat: data['host'], connected: data['end_at'].nil?, start_at: data['start_at'], end_at: data['end_at'] })
       end
 
       sleep 3
@@ -46,6 +42,14 @@ class ClusterLogger < Api42
       end
 	  db.update_user(user[:login42], :last_seat, user_info[:seat])
     end
+  end
+
+  def send_connected_message(login42, slack_id, opts)
+	puts "sending message to: #{login42} | #{slack_id} | #{opts}"
+  end
+
+  def send_disconnected_message(login42, slack_id, opts)
+	puts "sending message to: #{login42} | #{slack_id} | #{opts}"
   end
 
   def update_users(connected_infos, db)

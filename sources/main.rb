@@ -10,6 +10,8 @@ project = ProjectLogger.new
 slack = SlackPinger.new
 SlackBot.new
 
+old_connected_info = nil
+
 while true
 
   db = UserDatabase.new
@@ -33,7 +35,7 @@ while true
   ap connected_infos
 
   users.each do |user|
-    cluster.update_user(connected_infos, user, slack, db)
+    #cluster.update_user(connected_infos, user, slack, db)
     project.update_user(projects_infos, user, slack, db)
 
     #puts "User info:"
@@ -41,6 +43,20 @@ while true
   end
 
   cluster.update_users(connected_infos, db)
+
+  if !old_connected_info.nil?
+	old_connected_info.zip(connected_infos).each do |c1, c2|
+		slack_id = users.find{|u| u[:login] == c1[:login]}
+		if (c1[:connected] && !c2[:connected])
+			cluster.send_disconnected_message(c1[:login], slack_id, {secs: c1[:end_at] - c2[:end_at], seat: c1[:seat]});
+		end
+		if (!c1[:connected] && c2[:connected])
+			cluster.send_connected_message(c1[:login], slack_id, {secs: 1, seat: c1[:seat]});
+		end
+    end
+  end
+
+  old_connected_info = connected_infos
 
   db.close
 
