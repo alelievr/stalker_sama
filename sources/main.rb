@@ -29,29 +29,31 @@ while true
 
   #connected_infos.reject!{|i| i[:login] == "flevesqu" || i[:login] == "alelievr" || i[:login] == "nboulaye"}
 
-  puts "Users: #{Time.now}"
-  ap users
-  puts "Connected infos: - "
-  ap connected_infos
-
   users.each do |user|
     #cluster.update_user(connected_infos, user, slack, db)
     project.update_user(projects_infos, user, slack, db)
-
-    #puts "User info:"
-    #ap user_info
   end
 
   cluster.update_users(connected_infos, db)
 
   if !old_connected_info.nil?
-	old_connected_info.zip(connected_infos).each do |c1, c2|
-		slack_id = users.find{|u| u[:login] == c1[:login]}
+
+	halp_me = connected_infos.map{ |c| [c, old_connected_info.find{ |c2| c2[:login] == c[:login] }] }
+
+	halp_me.each do |c1, c2|
+
+  	  	puts "\nTime: #{Time.now}"
+		ap c1
+		puts "\n"
+		ap c2
+		puts "-------------------------------------------------------\n\n"
+
+		slack_id = users.find{|u| u[:login42] == c1[:login]}[:slack_id]
 		if (c1[:connected] && !c2[:connected])
-			cluster.send_disconnected_message(c1[:login], slack_id, {secs: c1[:end_at] - c2[:end_at], seat: c1[:seat]});
+        	slack.send_connected_message(c1[:login], slack_id, {secs: 1, seat: c1[:seat]})
 		end
 		if (!c1[:connected] && c2[:connected])
-			cluster.send_connected_message(c1[:login], slack_id, {secs: 1, seat: c1[:seat]});
+        	slack.send_disconnected_message(c1[:login], slack_id, {secs: Time.parse(c1[:begin_at]) - Time.parse(c1[:end_at]), seat: c1[:seat]})
 		end
     end
   end

@@ -1,5 +1,5 @@
 #!/bin/sh
 
-pkill -f ruby
+pkill -9 -f ruby
 killall ruby
 killall run.sh
