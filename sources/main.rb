@@ -10,7 +10,15 @@ project = ProjectLogger.new
 slack = SlackPinger.new
 SlackBot.new
 
-old_connected_info = nil
+old_connected_infos = nil
+
+def log(c1, c2)
+  	puts "\nTime: #{Time.now}"
+	ap c1
+	puts "\n"
+	ap c2
+	puts "-------------------------------------------------------\n\n"
+end
 
 while true
 
@@ -27,8 +35,6 @@ while true
 	next
   end
 
-  #connected_infos.reject!{|i| i[:login] == "flevesqu" || i[:login] == "alelievr" || i[:login] == "nboulaye"}
-
   users.each do |user|
     #cluster.update_user(connected_infos, user, slack, db)
     project.update_user(projects_infos, user, slack, db)
@@ -36,29 +42,33 @@ while true
 
   cluster.update_users(connected_infos, db)
 
-  if !old_connected_info.nil?
+  if !old_connected_infos.nil?
 
-	halp_me = connected_infos.map{ |c| [c, old_connected_info.find{ |c2| c2[:login] == c[:login] }] }
+#	connected_infos.map! do |c| 
+#		next c unless c[:login] == 'alelievr'
+#		c[:connected] = false
+#		c
+#  	end
+
+	halp_me = connected_infos.map{ |c| [c, old_connected_infos.find{ |c2| c2[:login] == c[:login] }] }
 
 	halp_me.each do |c1, c2|
 
-  	  	puts "\nTime: #{Time.now}"
-		ap c1
-		puts "\n"
-		ap c2
-		puts "-------------------------------------------------------\n\n"
+		next unless c2
 
 		slack_id = users.find{|u| u[:login42] == c1[:login]}[:slack_id]
 		if (c1[:connected] && !c2[:connected])
+			log(c2, c2)
         	slack.send_connected_message(c1[:login], slack_id, {secs: 1, seat: c1[:seat]})
 		end
 		if (!c1[:connected] && c2[:connected])
-        	slack.send_disconnected_message(c1[:login], slack_id, {secs: Time.parse(c1[:begin_at]) - Time.parse(c1[:end_at]), seat: c1[:seat]})
+			log(c1, c2)
+        	slack.send_disconnected_message(c1[:login], slack_id, {secs: Time.parse(c2[:begin_at]) - Time.parse(c1[:end_at]), seat: c1[:seat]})
 		end
     end
   end
 
-  old_connected_info = connected_infos
+  old_connected_infos = connected_infos
 
   db.close
 

@@ -12,15 +12,13 @@ class ClusterLogger < Api42
       response = send_uri("#{endpoint}?filter[user_id]=#{user_list.join(',')}&sort=-end_at&filter[-end_at]&page=#{page}")
 
       response.each do |data|
-		if !connected.any? {|c| c[:login] == data['user']['login']}
-        	connected.push({ login: data['user']['login'], seat: data['host'], connected: data['end_at'].nil?, begin_at: data['begin_at'], end_at: data['end_at'] })
-		end
+        connected.push({ login: data['user']['login'], seat: data['host'], connected: data['end_at'].nil?, begin_at: data['begin_at'], end_at: data['end_at'] })
       end
 
       sleep 3
     end
 
-    connected
+    connected.uniq{|c| c[:login]}
   end
 
   def update_user(connected_infos, user, slack, db)
