@@ -63,7 +63,7 @@ while true
 		end
 		if (!c1[:connected] && c2[:connected])
 			log(c1, c2)
-        	slack.send_disconnected_message(c1[:login], slack_id, {secs: Time.parse(c2[:begin_at]) - Time.parse(c1[:end_at]), seat: c1[:seat]})
+        	slack.send_disconnected_message(c1[:login], slack_id, {secs: Time.parse(c1[:end_at]) - Time.parse(c2[:begin_at]), seat: c1[:seat]})
 		end
     end
   end
