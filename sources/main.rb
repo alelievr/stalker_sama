@@ -18,6 +18,7 @@ def log(c1, c2)
 	puts "\n"
 	ap c2
 	puts "-------------------------------------------------------\n\n"
+	STDOUT.flush
 end
 
 while true

@@ -9,11 +9,15 @@ class ClusterLogger < Api42
     connected = []
 
     [1..10].map do |page|
-      response = send_uri("#{endpoint}?filter[user_id]=#{user_list.join(',')}&sort=-end_at&filter[-end_at]&page=#{page}")
-
-      response.each do |data|
-        connected.push({ login: data['user']['login'], seat: data['host'], connected: data['end_at'].nil?, begin_at: data['begin_at'], end_at: data['end_at'] })
-      end
+	  begin
+      	  response = send_uri("#{endpoint}?filter[user_id]=#{user_list.join(',')}&sort=-end_at&filter[-end_at]&page=#{page}")
+      	  response.each do |data|
+        	connected.push({ login: data['user']['login'], seat: data['host'], connected: data['end_at'].nil?, begin_at: data['begin_at'], end_at: data['end_at'] })
+      	  end
+	  rescue => e
+		  puts "An error occured in 42 API: #{e}"
+		  return []
+	  end
 
       sleep 3
     end
