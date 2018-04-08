@@ -19,7 +19,7 @@ class ProjectLogger < Api42
 
   def update_user(project_infos, user, slack, db)
     user_info = project_infos.detect { |i| i[:login] == user[:login42] }
-    opts = { level: user_info[:level], xp: (user_info[:level] - user[:level]) }
+    opts = { level: user_info[:level], xp: (user_info[:level] - user[:level]).round(2) }
     
     return unless opts[:xp].positive?
 
