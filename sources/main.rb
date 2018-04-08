@@ -12,11 +12,15 @@ SlackBot.new
 
 old_connected_infos = nil
 
-def log(c1, c2)
+def log(c1, c2, slack_id, users)
   	puts "\nTime: #{Time.now}"
 	ap c1
 	puts "\n"
 	ap c2
+  puts "slack_id ----------------------------------------------"
+  ap slack_id
+  puts "users -------------------------------------------------"
+  ap users
 	puts "-------------------------------------------------------\n\n"
 	STDOUT.flush
 end
@@ -59,11 +63,11 @@ while true
 
 		slack_id = users.find{|u| u[:login42] == c1[:login]}[:slack_id]
 		if (c1[:connected] && !c2[:connected])
-			log(c2, c2)
+			log(c1, c2, slack_id, users)
         	slack.send_connected_message(c1[:login], slack_id, {secs: 1, seat: c1[:seat]})
 		end
 		if (!c1[:connected] && c2[:connected])
-			log(c1, c2)
+			log(c1, c2, slack_id, users)
         	slack.send_disconnected_message(c1[:login], slack_id, {secs: Time.parse(c1[:end_at]) - Time.parse(c2[:begin_at]), seat: c1[:seat]})
 		end
     end
