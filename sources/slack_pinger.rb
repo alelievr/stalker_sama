@@ -1,6 +1,19 @@
 require 'slack-ruby-client'
 require 'json'
 
+def log_slack_pinger(infos, login42, slack_id, hash)
+  puts "infos -------------------------------------------------"
+  ap infos
+  puts "slack_id ----------------------------------------------"
+  ap slack_id
+  puts "login42 -----------------------------------------------"
+  ap login42
+  puts "hash --------------------------------------------------"
+  ap hash
+  puts "-------------------------------------------------------\n\n"
+end
+
+
 class SlackPinger
   CHAN = '#stalker'.freeze
   # CHAN = '#général'.freeze
@@ -40,6 +53,7 @@ class SlackPinger
     return if message.nil? || message == ''
 
     puts "Sending message: #{message}"
+    STDOUT.flush
 
     @client.chat_postMessage(channel: CHAN, text: message, as_user: true, link_names: 1)
   end
@@ -70,6 +84,8 @@ class SlackPinger
       message.gsub!("{#{key}}", value.to_s)
     end
 
+    log_slack_pinger(infos, login42, slack_id, hash)
+    
     message
   end
 
