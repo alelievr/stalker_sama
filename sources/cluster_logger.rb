@@ -4,11 +4,11 @@ require 'awesome_print'
 require_relative 'api42'
 
 def log(c1, c2, opts)
-    puts "\nTime: #{Time.now}"
+  puts "\nTime: #{Time.now}"
   ap c1
   puts "\n"
   ap c2 if c2
-  puts "opts --------------------------------------------------"
+  puts 'opts --------------------------------------------------'
   ap opts
   puts "-------------------------------------------------------\n\n"
   STDOUT.flush
@@ -21,30 +21,28 @@ class ClusterLogger < Api42
     connected = []
 
     [1..10].map do |page|
-	  begin
-      	  response = send_uri("#{endpoint}?filter[user_id]=#{user_list.join(',')}&sort=-end_at&filter[-end_at]&page=#{page}")
-      	  response.each do |data|
-        	connected.push({ login: data['user']['login'], seat: data['host'], connected: data['end_at'].nil?, begin_at: data['begin_at'], end_at: data['end_at'] })
-      	  end
-	  rescue => e
-		  puts "An error occured in 42 API: #{e}"
-		  return []
-	  end
-
+      begin
+        response = send_uri("#{endpoint}?filter[user_id]=#{user_list.join(',')}&sort=-end_at&filter[-end_at]&page=#{page}")
+        response.each do |data|
+          connected.push(login: data['user']['login'], seat: data['host'], connected: data['end_at'].nil?, begin_at: data['begin_at'], end_at: data['end_at'])
+        end
+      rescue Exception => e
+        puts "An error occured in 42 API: #{e}"
+        return []
+      end
       sleep 3
     end
 
-    connected.uniq{|c| c[:login]}
+    connected.uniq { |c| c[:login] }
   end
 
   def update_user(connected_infos, user, slack, db)
     secs = Time.now - Time.parse(user[:last_connected])
     user_info = connected_infos.detect { |i| i[:login] == user[:login42] }
 
-    seat = user_info[:seat] if user_info
-    seat ||= ''
+    return unless user_info
 
-    opts = { secs: secs, seat: seat }
+    opts = { secs: secs, seat: user_info[:seat] }
 
     # just log in
     if user_info[:connected] && !user[:connected]

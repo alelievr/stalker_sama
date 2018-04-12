@@ -11,17 +11,16 @@ slack = SlackPinger.new
 db = UserDatabase.new
 SlackBot.new
 
-while true
-
+loop do
   users = db.get_users
   users_api42_ids = users.map { |u| u[:api42_id] }
 
   begin
-  	connected_infos = cluster.update_logger(users_api42_ids)
-  	projects_infos = project.get_infos(users_api42_ids)
+    connected_infos = cluster.update_logger(users_api42_ids)
+    projects_infos = project.get_infos(users_api42_ids)
   rescue Exception => e
-  	puts "En error occured: #{e.message}"
-  	next
+    puts "En error occured: #{e.message}"
+    next
   end
 
   users.each do |user|
@@ -29,7 +28,5 @@ while true
     project.update_user(projects_infos, user, slack, db)
   end
 
-  db.close
-  users = nil
   sleep 10
 end
