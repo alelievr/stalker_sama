@@ -9,6 +9,7 @@ cluster = ClusterLogger.new
 project = ProjectLogger.new
 slack = SlackPinger.new
 db = UserDatabase.new
+SlackBot.new
 
 while true
 
