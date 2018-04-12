@@ -1,4 +1,5 @@
 require 'json'
+require 'time'
 require 'awesome_print'
 require_relative 'api42'
 
@@ -60,7 +61,7 @@ class ClusterLogger < Api42
     log(user, user_info, opts)
 
     slack.send_disconnected_message(user[:login42], user[:slack_id], opts)
-    db.update_user(user[:login42], :last_connected, user_info[:end_at])
+    db.update_user(user[:login42], :last_connected, Time.parse(user_info[:end_at]).to_s)
     db.update_user(user[:login42], :connected, false)
   end
 
