@@ -12,3 +12,6 @@ Style/AsciiComments:
 
 Layout/LeadingCommentSpace:
   Enabled: false
+
+Naming/UncommunicativeMethodParamName:
+  Enabled: false
