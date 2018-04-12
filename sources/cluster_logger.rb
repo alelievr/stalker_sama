@@ -28,22 +28,27 @@ class ClusterLogger < Api42
   def update_user(connected_infos, user, slack, db)
     secs = Time.now - Time.parse(user[:last_connected])
     user_info = connected_infos.detect { |i| i[:login] == user[:login42] }
-    a = user_info[:seat] if user_info
-    a ||= ''
-    opts = { secs: secs, seat: a }
 
-    if user_info.nil?
-      if user[:connected]
-        slack.send_disconnected_message(user[:login42], user[:slack_id], opts)
-        db.update_user(user[:login42], :last_connected, Time.now)
-      end
-    else
-      unless user[:connected]
-        slack.send_connected_message(user[:login42], user[:slack_id], opts)
-        db.update_user(user[:login42], :last_connected, Time.now)
-      end
-	  db.update_user(user[:login42], :last_seat, user_info[:seat])
+    seat = user_info[:seat] if user_info
+    seat ||= ''
+
+    opts = { secs: secs, seat: seat }
+
+    # just log in
+    if user_info && !user[:connected]
+      slack.send_connected_message(user[:login42], user[:slack_id], opts)
+      db.update_user(user[:login42], :last_seat, user_info[:seat])
+      db.update_user(user[:login42], :connected, true)
+      return
     end
+
+    return unless user_info.nil? && user[:connected]
+
+    # just log out
+
+    slack.send_disconnected_message(user[:login42], user[:slack_id], opts)
+    db.update_user(user[:login42], :last_connected, user[:end_at])
+    db.update_user(user[:login42], :connected, false)
   end
 
   def update_users(connected_infos, db)
