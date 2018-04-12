@@ -2,6 +2,17 @@ require 'json'
 require 'awesome_print'
 require_relative 'api42'
 
+def log(c1, c2, opts)
+    puts "\nTime: #{Time.now}"
+  ap c1
+  puts "\n"
+  ap c2
+  puts "opts --------------------------------------------------"
+  ap opts
+  puts "-------------------------------------------------------\n\n"
+  STDOUT.flush
+end
+
 class ClusterLogger < Api42
   def update_logger(user_list, endpoint = '/v2/locations')
     return [] unless user_list.count != 0
@@ -36,6 +47,7 @@ class ClusterLogger < Api42
 
     # just log in
     if user_info && !user[:connected]
+      log(user, user_info, opts)
       slack.send_connected_message(user[:login42], user[:slack_id], opts)
       db.update_user(user[:login42], :last_seat, user_info[:seat])
       db.update_user(user[:login42], :connected, true)
@@ -45,6 +57,7 @@ class ClusterLogger < Api42
     return unless user_info.nil? && user[:connected]
 
     # just log out
+    log(user, user_info, opts)
 
     slack.send_disconnected_message(user[:login42], user[:slack_id], opts)
     db.update_user(user[:login42], :last_connected, user_info[:end_at])

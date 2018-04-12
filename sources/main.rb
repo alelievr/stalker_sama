@@ -10,17 +10,6 @@ project = ProjectLogger.new
 slack = SlackPinger.new
 db = UserDatabase.new
 
-def log(c1, c2, slack_id)
-  	puts "\nTime: #{Time.now}"
-	ap c1
-	puts "\n"
-	ap c2
-  puts "slack_id ----------------------------------------------"
-  ap slack_id
-	puts "-------------------------------------------------------\n\n"
-	STDOUT.flush
-end
-
 while true
 
   users = db.get_users
