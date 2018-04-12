@@ -78,6 +78,22 @@ class SlackBot
       react(data, :madac)
     when /m’attendez pas/i
       react(data, :runner)
+    when /malade/i
+      react(data, :mask)
+    when /chaud/i
+      react(data, :burn) if rand(4) == 2
+    when /faille.*temporelle/i
+      react(data, :octopus)
+    when /lovecraft/i
+      react(data, :squid)
+    when /fuck/i
+      react(data, :face_with_symbols_on_mouth)
+    when /trop de monde/i
+      react(data, :monkey)
+      react(data, :sheep)
+      react(data, :rabbit2)
+      react(data, :rat)
+      react(data, :chipmunk)
     when /who.*connected/i
       react(data, :eyes)
       send_message(data.channel, @ud.get_users.map { |u| "#{u[:login42]} @ #{u[:last_seat]}" if u[:connected] }.compact.join("\n"))
