@@ -6,7 +6,7 @@ def log(c1, c2, opts)
     puts "\nTime: #{Time.now}"
   ap c1
   puts "\n"
-  ap c2
+  ap c2 if c2
   puts "opts --------------------------------------------------"
   ap opts
   puts "-------------------------------------------------------\n\n"
