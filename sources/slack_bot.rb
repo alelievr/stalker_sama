@@ -2,6 +2,7 @@ require 'slack-ruby-client'
 require 'awesome_print'
 require 'json'
 require 'http'
+require 'final_redirect_url'
 require_relative 'user_database.rb'
 
 class SlackBot
@@ -18,7 +19,7 @@ class SlackBot
     @client = Slack::RealTime::Client.new
 
     @client.on :message do |data|
-	  on_react(data)
+      on_react(data)
       on_direct_message(data) if data.channel[0] == 'D'
       on_channel_message(data) if data.channel[0] == 'C'
     end
@@ -88,52 +89,53 @@ class SlackBot
       react(data, :rabbit2)
       react(data, :rat)
       react(data, :chipmunk)
-	when /zetes ou/i
-	when /pas moi/i
-		react(data, :eyes)
-	when /is faster than Usain Bolt/
-		react(data, :ultra_fast_parrot)
-	when /has left, his weakness has no limits/
-		react(data, :shame)
-	when /diseppears after/
-		react(data, :nuclear_explosion) if rand(2) == 1
-	when /caf[eé]/i
-		react(data, :coffee)
-	when /rage quit/i
-		react(data, :rage)
-	when /ah/i
-		react(data, :ah)
+    when /zetes ou/i
+      react(data, :eyes)
+    when /pas moi/i
+      react(data, :eyes)
+    when /is faster than Usain Bolt/
+      react(data, :ultra_fast_parrot)
+    when /has left, his weakness has no limits/
+      react(data, :shame)
+    when /diseppears after/
+      react(data, :nuclear_explosion) if rand(2) == 1
+    when /caf[eé]/i
+      react(data, :coffee)
+    when /rage quit/i
+      react(data, :rage)
+    when /ah/i
+      react(data, :ah)
     end
 
-	#User specific reactions:
- 	case data.user
-	  when /UA3BFSJ3X/	# frmarinh
-		  react(data, :money_with_wings)
-	  when /U9CQUF9BR/	# nboulaye
-		  react(data, :shell)
-	  when /U9G62CJDQ/	# bbrunell
-		  react(daat, :weak)
-	  when /U9B593R1N/	# bal-khan
-		  react(data, :banana)
-	  when /U9GUFLZ9N/	# alelievr
-		  react(data, :unity)
-	  when /U9B3RJWSU/	# ocarta-l
-		  react(data, :dark_sunglasses)
-	  when /U9BPLMTAP/	# hmoussa
-	  when /U9B4EL3NC/	# flevesqu
-		  react(data, :octopus)
-	  when /U9BTEQF7U/	# amerelo
-		  react(data, :amerelo)
-	  when /U9JVBA32S/	# cadam
-	  when /U9CBJLGDT/	# vbauguen
-		  react(data, :patapon_animated)
-	  when /U9JMHP8HJ/	# dmoureu-
-	  when /U9JLL19KK/	# amoreilh
-	  when /U9N1Q4D9V/	# vdaviot
-	  when /U9X6WU879/	# jblondea
-	  when /U9VC4R1TK/	# mconnat
-	  when /UA1SCLD7U/	# jguyet
-	end
+    #User specific reactions:
+    case data.user
+      when /UA3BFSJ3X/  # frmarinh
+        react(data, :money_with_wings) if rand(10) == 1
+      when /U9CQUF9BR/  # nboulaye
+        react(data, :shell) if rand(10) == 1
+      when /U9G62CJDQ/  # bbrunell
+        react(daat, :weak) if rand(10) == 1
+      when /U9B593R1N/  # bal-khan
+        react(data, :banana) if rand(10) == 1
+      when /U9GUFLZ9N/  # alelievr
+        react(data, :unity) if rand(10) == 1
+      when /U9B3RJWSU/  # ocarta-l
+        react(data, :dark_sunglasses) if rand(10) == 1
+      when /U9BPLMTAP/  # hmoussa
+      when /U9B4EL3NC/  # flevesqu
+        react(data, :octopus) if rand(10) == 1
+      when /U9BTEQF7U/  # amerelo
+        react(data, :amerelo) if rand(10) == 1
+      when /U9JVBA32S/  # cadam
+      when /U9CBJLGDT/  # vbauguen
+        react(data, :patapon_animated) if rand(10) == 1
+      when /U9JMHP8HJ/  # dmoureu-
+      when /U9JLL19KK/  # amoreilh
+      when /U9N1Q4D9V/  # vdaviot
+      when /U9X6WU879/  # jblondea
+      when /U9VC4R1TK/  # mconnat
+      when /UA1SCLD7U/  # jguyet
+    end
   end
 
   def on_direct_message(data)
@@ -174,5 +176,9 @@ class SlackBot
 
   def react(data, name)
     @client.web_client.reactions_add(name: name, channel: data.channel, timestamp: data.ts, as_user: true)
+  end
+
+  def random_gif
+    url = FinalRedirectUrl.final_redirect_url('https://lesjoiesducode.fr/random')
   end
 end
