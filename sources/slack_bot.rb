@@ -80,7 +80,7 @@ class SlackBot
       react(data, :runner)
     when /who.*connected/i
       react(data, :eyes)
-      send_message(data.channel, @ud.get_users.map { |u| "#{u[:login42]} @ #{u[:last_seat]} ()" if u[:connected] }.compact.join("\n"))
+      send_message(data.channel, @ud.get_users.map { |u| "#{u[:login42]} @ #{u[:last_seat]}" if u[:connected] }.compact.join("\n"))
     else
       q = data.text.sub(/.*(stalker[s]?|cluster[s]?)\s*[\?\.,!:]*/i, '')
       react(data, :thinking_face)
