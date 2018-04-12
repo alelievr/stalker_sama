@@ -47,7 +47,7 @@ class ClusterLogger < Api42
     # just log out
 
     slack.send_disconnected_message(user[:login42], user[:slack_id], opts)
-    db.update_user(user[:login42], :last_connected, user[:end_at])
+    db.update_user(user[:login42], :last_connected, user_info[:end_at])
     db.update_user(user[:login42], :connected, false)
   end
 
