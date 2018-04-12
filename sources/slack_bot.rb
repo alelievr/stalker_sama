@@ -110,16 +110,23 @@ class SlackBot
 	  when /UA3BFSJ3X/	# frmarinh
 		  react(data, :money_with_wings)
 	  when /U9CQUF9BR/	# nboulaye
+		  react(data, :shell)
 	  when /U9G62CJDQ/	# bbrunell
+		  react(daat, :weak)
 	  when /U9B593R1N/	# bal-khan
+		  react(data, :banana)
 	  when /U9GUFLZ9N/	# alelievr
 		  react(data, :unity)
 	  when /U9B3RJWSU/	# ocarta-l
+		  react(data, :dark_sunglasses)
 	  when /U9BPLMTAP/	# hmoussa
 	  when /U9B4EL3NC/	# flevesqu
+		  react(data, :octopus)
 	  when /U9BTEQF7U/	# amerelo
+		  react(data, :amerelo)
 	  when /U9JVBA32S/	# cadam
 	  when /U9CBJLGDT/	# vbauguen
+		  react(data, :patapon_animated)
 	  when /U9JMHP8HJ/	# dmoureu-
 	  when /U9JLL19KK/	# amoreilh
 	  when /U9N1Q4D9V/	# vdaviot
