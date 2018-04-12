@@ -1,7 +1,7 @@
 require 'slack-ruby-client'
 require 'json'
 
-def log_slack_pinger(infos, login42, slack_id, hash)
+def log_slack_pinger(infos, login42, slack_id, hash, message)
   puts "infos -------------------------------------------------"
   ap infos
   puts "slack_id ----------------------------------------------"
@@ -10,6 +10,8 @@ def log_slack_pinger(infos, login42, slack_id, hash)
   ap login42
   puts "hash --------------------------------------------------"
   ap hash
+  puts "message -----------------------------------------------"
+  ap message
   puts "-------------------------------------------------------\n\n"
 end
 
@@ -80,11 +82,13 @@ class SlackPinger
       xp: opts[:xp]
     }
 
+	message = message.dup
+
     hash.map do |key, value|
       message.gsub!("{#{key}}", value.to_s)
     end
 
-    log_slack_pinger(infos, login42, slack_id, hash)
+    log_slack_pinger(infos, login42, slack_id, hash, message)
     
     message
   end
