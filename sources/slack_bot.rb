@@ -69,6 +69,15 @@ class SlackBot
       send_message(data.channel, 'In your back !')
     when /is.*weak.*\?/
       send_message(data.channel, 'Yes !')
+    when /just pex/
+      react(data, :tada)
+    when /manger/i
+      react(data, :pizza)
+      react(data, :amerelo)
+    when /cadam/
+      react(data, :madac)
+    when /m’attendez pas/i
+      react(data, :runner)
     when /who.*connected/i
       react(data, :eyes)
       send_message(data.channel, @ud.get_users.map { |u| "#{u[:login42]} @ #{u[:last_seat]} ()" if u[:connected] }.compact.join("\n"))
