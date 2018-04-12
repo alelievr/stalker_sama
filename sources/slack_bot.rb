@@ -18,6 +18,7 @@ class SlackBot
     @client = Slack::RealTime::Client.new
 
     @client.on :message do |data|
+	  on_react(data)
       on_direct_message(data) if data.channel[0] == 'D'
       on_channel_message(data) if data.channel[0] == 'C'
     end
@@ -58,15 +59,8 @@ class SlackBot
     on_direct_message(data)
   end
 
-  def on_direct_message(data)
-    return unless data.subtype.nil?
-
-    ap data
+  def on_react(data)
     case data.text
-    when /(\W+hi|^hi|\W+hey|^hey|^hello|\W+hello)\W+/i
-      send_message(data.channel, "Hi <@#{data.user}> !")
-    when /where.*you/i
-      send_message(data.channel, 'In your back !')
     when /is.*weak.*\?/
       send_message(data.channel, 'Yes !')
     when /just pex/
@@ -95,6 +89,7 @@ class SlackBot
       react(data, :rat)
       react(data, :chipmunk)
 	when /zetes ou/i
+	when /pas moi/i
 		react(data, :eyes)
 	when /is faster than Usain Bolt/
 		react(data, :ultra_fast_parrot)
@@ -108,6 +103,43 @@ class SlackBot
 		react(data, :rage)
 	when /ah/i
 		react(data, :ah)
+    end
+
+	#User specific reactions:
+ 	case data.user
+	  when /UA3BFSJ3X/	# frmarinh
+		  react(data, :money_with_wings)
+	  when /U9CQUF9BR/	# nboulaye
+	  when /U9G62CJDQ/	# bbrunell
+	  when /U9B593R1N/	# bal-khan
+	  when /U9GUFLZ9N/	# alelievr
+		  react(data, :unity)
+	  when /U9B3RJWSU/	# ocarta-l
+	  when /U9BPLMTAP/	# hmoussa
+	  when /U9B4EL3NC/	# flevesqu
+	  when /U9BTEQF7U/	# amerelo
+	  when /U9JVBA32S/	# cadam
+	  when /U9CBJLGDT/	# vbauguen
+	  when /U9JMHP8HJ/	# dmoureu-
+	  when /U9JLL19KK/	# amoreilh
+	  when /U9N1Q4D9V/	# vdaviot
+	  when /U9X6WU879/	# jblondea
+	  when /U9VC4R1TK/	# mconnat
+	  when /UA1SCLD7U/	# jguyet
+	end
+  end
+
+  def on_direct_message(data)
+    return unless data.subtype.nil?
+
+    ap data
+    case data.text
+    when /(\W+hi|^hi|\W+hey|^hey|^hello|\W+hello)\W+/i
+      send_message(data.channel, "Hi <@#{data.user}> !")
+    when /where.*you/i
+      send_message(data.channel, 'In your back !')
+    when /is.*weak.*\?/
+      send_message(data.channel, 'Yes !')
     when /who.*connected/i
       react(data, :eyes)
       send_message(data.channel, @ud.get_users.map { |u| "#{u[:login42]} @ #{u[:last_seat]}" if u[:connected] }.compact.join("\n"))
