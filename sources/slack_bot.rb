@@ -71,7 +71,7 @@ class SlackBot
       send_message(data.channel, 'Yes !')
     when /just pex/
       react(data, :tada)
-    when /manger/i
+    when /mang(er|é)/i
       react(data, :pizza)
       react(data, :amerelo)
     when /cadam/
@@ -94,6 +94,20 @@ class SlackBot
       react(data, :rabbit2)
       react(data, :rat)
       react(data, :chipmunk)
+	when /zetes ou/i
+		react(data, :eyes)
+	when /is faster than Usain Bolt/
+		react(data, :ultra_fast_parrot)
+	when /has left, his weakness has no limits/
+		react(data, :shame)
+	when /diseppears after/
+		react(data, :nuclear_explosion) if rand(2) == 1
+	when /caf[eé]/i
+		react(data, :coffee)
+	when /rage quit/i
+		react(data, :rage)
+	when /ah/i
+		react(data, :ah)
     when /who.*connected/i
       react(data, :eyes)
       send_message(data.channel, @ud.get_users.map { |u| "#{u[:login42]} @ #{u[:last_seat]}" if u[:connected] }.compact.join("\n"))
