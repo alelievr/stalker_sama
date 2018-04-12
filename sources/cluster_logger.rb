@@ -47,7 +47,7 @@ class ClusterLogger < Api42
     opts = { secs: secs, seat: seat }
 
     # just log in
-    if user_info && !user[:connected]
+    if user_info[:connected] && !user[:connected]
       log(user, user_info, opts)
       slack.send_connected_message(user[:login42], user[:slack_id], opts)
       db.update_user(user[:login42], :last_seat, user_info[:seat])
@@ -55,7 +55,7 @@ class ClusterLogger < Api42
       return
     end
 
-    return unless user_info.nil? && user[:connected]
+    return unless !user_info[:connected] && user[:connected]
 
     # just log out
     log(user, user_info, opts)
