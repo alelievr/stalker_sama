@@ -149,6 +149,8 @@ class SlackBot
       send_message(data.channel, "Hi <@#{data.user}> !")
     when /random gif/i
       random_gif(data)
+    when /random commit/i
+      random_commit(data)
     when /where.*you/i
       send_message(data.channel, 'In your back !')
     when /is.*weak.*\?/
@@ -191,5 +193,12 @@ class SlackBot
     gif_url = nokogiri_object.xpath('//*/div[1]/p/img').first.values.detect { |i| i =~ /http/ }
     text = nokogiri_object.xpath('//*/h1').first.children.text.strip
     send_message(data.channel, "*#{text}*\n#{gif_url}")
+  end
+
+  def random_commit(data)
+    url = 'http://whatthecommit.com/'
+    nokogiri_object = Nokogiri::HTML(open(url).read)
+    text = nokogiri_object.xpath('//*/p').first.text.strip
+    send_message(data.channel, "*#{text}*")
   end
 end
