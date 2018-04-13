@@ -204,7 +204,7 @@ class SlackBot
     send_message(data.channel, "*#{text}*")
   end
 
-  def random_commit_strip(data)
+  def random_commitstrip(data)
     url = ''
     while url == ''
       url = (FinalRedirectUrl.final_redirect_url('http://www.commitstrip.com/fr/random').to_s rescue '')
