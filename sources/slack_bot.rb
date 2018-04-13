@@ -3,6 +3,8 @@ require 'awesome_print'
 require 'json'
 require 'http'
 require 'final_redirect_url'
+require 'nokogiri'
+require 'open-uri'
 require_relative 'user_database.rb'
 
 class SlackBot
@@ -109,32 +111,32 @@ class SlackBot
 
     #User specific reactions:
     case data.user
-      when /UA3BFSJ3X/  # frmarinh
-        react(data, :money_with_wings) if rand(10) == 1
-      when /U9CQUF9BR/  # nboulaye
-        react(data, :shell) if rand(10) == 1
-      when /U9G62CJDQ/  # bbrunell
-        react(daat, :weak) if rand(10) == 1
-      when /U9B593R1N/  # bal-khan
-        react(data, :banana) if rand(10) == 1
-      when /U9GUFLZ9N/  # alelievr
-        react(data, :unity) if rand(10) == 1
-      when /U9B3RJWSU/  # ocarta-l
-        react(data, :dark_sunglasses) if rand(10) == 1
-      when /U9BPLMTAP/  # hmoussa
-      when /U9B4EL3NC/  # flevesqu
-        react(data, :octopus) if rand(10) == 1
-      when /U9BTEQF7U/  # amerelo
-        react(data, :amerelo) if rand(10) == 1
-      when /U9JVBA32S/  # cadam
-      when /U9CBJLGDT/  # vbauguen
-        react(data, :patapon_animated) if rand(10) == 1
-      when /U9JMHP8HJ/  # dmoureu-
-      when /U9JLL19KK/  # amoreilh
-      when /U9N1Q4D9V/  # vdaviot
-      when /U9X6WU879/  # jblondea
-      when /U9VC4R1TK/  # mconnat
-      when /UA1SCLD7U/  # jguyet
+    when /UA3BFSJ3X/  # frmarinh
+      react(data, :money_with_wings) if rand(10) == 1
+    when /U9CQUF9BR/  # nboulaye
+      react(data, :shell) if rand(10) == 1
+    when /U9G62CJDQ/  # bbrunell
+      react(daat, :weak) if rand(10) == 1
+    when /U9B593R1N/  # bal-khan
+      react(data, :banana) if rand(10) == 1
+    when /U9GUFLZ9N/  # alelievr
+      react(data, :unity) if rand(10) == 1
+    when /U9B3RJWSU/  # ocarta-l
+      react(data, :dark_sunglasses) if rand(10) == 1
+    when /U9BPLMTAP/  # hmoussa
+    when /U9B4EL3NC/  # flevesqu
+      react(data, :octopus) if rand(10) == 1
+    when /U9BTEQF7U/  # amerelo
+      react(data, :amerelo) if rand(10) == 1
+    when /U9JVBA32S/  # cadam
+    when /U9CBJLGDT/  # vbauguen
+      react(data, :patapon_animated) if rand(10) == 1
+    when /U9JMHP8HJ/  # dmoureu-
+    when /U9JLL19KK/  # amoreilh
+    when /U9N1Q4D9V/  # vdaviot
+    when /U9X6WU879/  # jblondea
+    when /U9VC4R1TK/  # mconnat
+    when /UA1SCLD7U/  # jguyet
     end
   end
 
@@ -145,6 +147,8 @@ class SlackBot
     case data.text
     when /(\W+hi|^hi|\W+hey|^hey|^hello|\W+hello)\W+/i
       send_message(data.channel, "Hi <@#{data.user}> !")
+    when /random gif/i
+      random_gif(data)
     when /where.*you/i
       send_message(data.channel, 'In your back !')
     when /is.*weak.*\?/
@@ -178,7 +182,17 @@ class SlackBot
     @client.web_client.reactions_add(name: name, channel: data.channel, timestamp: data.ts, as_user: true)
   end
 
-  def random_gif
-    url = FinalRedirectUrl.final_redirect_url('https://lesjoiesducode.fr/random')
+  def random_gif(data)
+    url = ''
+    while url == ''
+      url = (FinalRedirectUrl.final_redirect_url('https://lesjoiesducode.fr/random').to_s rescue '') 
+    end
+    nokogiri_object = Nokogiri::HTML(open(url).read)
+    ap url
+    ap nokogiri_object.xpath('//*/div[1]/p/img')
+    gif_url = nokogiri_object.xpath('//*/div[1]/p/img').first.values.detect { |i| i =~ /http/}
+    text = nokogiri_object.xpath('//*/h1').first.children.text.strip
+    send_message(data.channel, text)
+    send_message(data.channel, gif_url)
   end
 end
