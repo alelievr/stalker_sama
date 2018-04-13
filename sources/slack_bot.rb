@@ -189,40 +189,42 @@ class SlackBot
   end
 
   def random_gif(data)
-    url = ''
-    while url == ''
-      url = (FinalRedirectUrl.final_redirect_url('https://lesjoiesducode.fr/random').to_s rescue '')
-    end
-    nokogiri_object = Nokogiri::HTML(open(url).read)
+    nokogiri_object = nokogiri('https://lesjoiesducode.fr/random')
     gif_url = nokogiri_object.xpath('//*/div[1]/p/img').first.values.detect { |i| i =~ /http/ }
-    text = nokogiri_object.xpath('//*/h1').first.children.text.strip
+    text = strip(nokogiri_object.xpath('//*/h1').first.children)
     send_message(data.channel, "*#{text}*\n#{gif_url}")
   end
 
   def random_commit(data)
-    url = 'http://whatthecommit.com/'
-    nokogiri_object = Nokogiri::HTML(open(url).read)
-    text = nokogiri_object.xpath('//*/p').first.text.strip
+    nokogiri_object = nokogiri('http://whatthecommit.com/')
+    text = strip(nokogiri_object.xpath('//*/p').first)
     send_message(data.channel, "*#{text}*")
   end
 
   def random_quote(data)
-    url = 'http://www.litquotes.com/Random-Quote.php'
-    nokogiri_object = Nokogiri::HTML(open(url).read)
-    text = nokogiri_object.xpath('//b').first.text.strip
-    book = nokogiri_object.xpath('//i').first.text.strip
-    author = nokogiri_object.xpath('//p/a').first.text.strip
+    nokogiri_object = nokogiri('http://www.litquotes.com/Random-Quote.php')
+    text = strip(nokogiri_object.xpath('//b').first)
+    book = strip(nokogiri_object.xpath('//i').first)
+    author = strip(nokogiri_object.xpath('//p/a').first)
     send_message(data.channel, "*#{text}*\n_#{book}_ by #{author}")
   end
 
   def random_commitstrip(data)
+    nokogiri_object = nokogiri('http://www.commitstrip.com/fr/random')
+    img_url = nokogiri_object.xpath('//div/p/img').first.values.detect { |i| i =~ /http/ }
+    text = strip(nokogiri_object.xpath('//header[contains(@class, \'entry-header\')]/h1').first.children)
+    send_message(data.channel, "*#{text}*\n#{img_url}")
+  end
+
+  def nokogiri(website)
     url = ''
     while url == ''
-      url = (FinalRedirectUrl.final_redirect_url('http://www.commitstrip.com/fr/random').to_s rescue '')
+      url = (FinalRedirectUrl.final_redirect_url(website).to_s rescue '')
     end
-    nokogiri_object = Nokogiri::HTML(open(url).read)
-    img_url = nokogiri_object.xpath('//div/p/img').first.values.detect { |i| i =~ /http/ }
-    text = nokogiri_object.xpath('//header[contains(@class, \'entry-header\')]/h1').first.children.text.strip
-    send_message(data.channel, "*#{text}*\n#{img_url}")
+    Nokogiri::HTML(open(url).read)
+  end
+
+  def strip(data)
+    data.text.strip
   end
 end
