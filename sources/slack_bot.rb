@@ -204,6 +204,9 @@ class SlackBot
     card = hand.first
     url = "https://raw.githubusercontent.com/hayeah/playing-cards-assets/master/png/#{card.to_i < 11 ? card.to_i.to_s : hash[card.to_i]}_of_#{card.suit.downcase}.png"
     send_message(data.channel, url)
+    card = hand.last
+    url = "https://raw.githubusercontent.com/hayeah/playing-cards-assets/master/png/#{card.to_i < 11 ? card.to_i.to_s : hash[card.to_i]}_of_#{card.suit.downcase}.png"
+    send_message(data.channel, url)
   end
 
   def random_gif(data)
