@@ -193,6 +193,6 @@ class SlackBot
     gif_url = nokogiri_object.xpath('//*/div[1]/p/img').first.values[1]
     text = nokogiri_object.xpath('//*/h1').first.children.text.strip
     send_message(data.channel, text)
-    send_message(data.channel, "/giphy #enhance #{gif_url}")
+    send_message(data.channel, gif_url)
   end
 end
