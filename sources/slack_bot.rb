@@ -5,7 +5,9 @@ require 'http'
 require 'final_redirect_url'
 require 'nokogiri'
 require 'open-uri'
+require 'rubycards'
 require_relative 'user_database.rb'
+include RubyCards
 
 class SlackBot
   def initialize
@@ -123,11 +125,13 @@ class SlackBot
       react(data, :unity) if rand(10) == 1
     when /U9B3RJWSU/  # ocarta-l
       react(data, :dark_sunglasses) if rand(10) == 1
+      react(data, :iex) if rand(10) == 1
     when /U9BPLMTAP/  # hmoussa
     when /U9B4EL3NC/  # flevesqu
       react(data, :octopus) if rand(10) == 1
     when /U9BTEQF7U/  # amerelo
       react(data, :amerelo) if rand(10) == 1
+      react(data, :rust) if rand(10) == 1
     when /U9JVBA32S/  # cadam
     when /U9CBJLGDT/  # vbauguen
       react(data, :patapon_animated) if rand(10) == 1
@@ -155,6 +159,8 @@ class SlackBot
       random_commit(data)
     when /random quote/i
       random_quote(data)
+    when /random card/i
+      random_card(data)
     when /where.*you/i
       send_message(data.channel, 'In your back !')
     when /is.*weak.*\?/
@@ -186,6 +192,20 @@ class SlackBot
 
   def react(data, name)
     @client.web_client.reactions_add(name: name, channel: data.channel, timestamp: data.ts, as_user: true)
+  end
+
+  def random_card(data)
+    hand = Hand.new
+    deck = Deck.new
+
+    deck.shuffle!
+    hash = { 11 => 'jack', 12 => 'queen', 13 => 'king', 14 => 'ace' }
+    hand.draw(deck, 2)
+    card = hand.cards.first
+    url = "https://raw.githubusercontent.com/hayeah/playing-cards-assets/master/png/#{card.to_i < 11 ? card.to_i.to_s : hash[card.to_i]}_of_#{card.suit.downcase}.png"
+    card = hand.cards.last
+    url2 = "https://raw.githubusercontent.com/hayeah/playing-cards-assets/master/png/#{card.to_i < 11 ? card.to_i.to_s : hash[card.to_i]}_of_#{card.suit.downcase}.png"
+    send_message(data.channel, "#{url}\n#{url2}")
   end
 
   def random_gif(data)
