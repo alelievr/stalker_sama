@@ -201,7 +201,7 @@ class SlackBot
     deck.shuffle!
 
     hand.draw(deck, 1)
-    send_message(data.channel, hand.first.to_s)
+    send_message(data.channel, hand.first.to_s.gsub(/\e\[(\d+)m/, ''))
   end
 
   def random_gif(data)
