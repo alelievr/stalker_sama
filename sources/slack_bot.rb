@@ -199,9 +199,11 @@ class SlackBot
     deck = Deck.new
 
     deck.shuffle!
-
+    hash = { 11 => 'jack', 12 => 'queen', 13 => 'king', 14 => 'ace' }
     hand.draw(deck, 1)
-    send_message(data.channel, hand.first.to_s.gsub(/\e\[(\d+)(m|;\d+m)/, ''))
+    card = hand.first
+    url = "https://raw.githubusercontent.com/hayeah/playing-cards-assets/master/png/#{card.to_i < 11 ? card.to_i.to_s : hash[card.to_i]}_of_#{card.suit.downcase}.png"
+    send_message(data.channel, url)
   end
 
   def random_gif(data)
