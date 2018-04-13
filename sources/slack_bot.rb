@@ -153,6 +153,8 @@ class SlackBot
       random_commitstrip(data)
     when /random commit/i
       random_commit(data)
+    when /random quote/i
+      random_quote(data)
     when /where.*you/i
       send_message(data.channel, 'In your back !')
     when /is.*weak.*\?/
@@ -202,6 +204,15 @@ class SlackBot
     nokogiri_object = Nokogiri::HTML(open(url).read)
     text = nokogiri_object.xpath('//*/p').first.text.strip
     send_message(data.channel, "*#{text}*")
+  end
+
+  def random_quote(data)
+    url = 'http://www.litquotes.com/Random-Quote.php'
+    nokogiri_object = Nokogiri::HTML(open(url).read)
+    text = nokogiri_object.xpath('//b').first.text.strip
+    book = nokogiri_object.xpath('//i').first.text.strip
+    author = nokogiri_object.xpath('//p/a').first.text.strip
+    send_message(data.channel, "*#{text}*\n_#{book}_ by #{author}")
   end
 
   def random_commitstrip(data)
