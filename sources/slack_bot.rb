@@ -212,6 +212,6 @@ class SlackBot
     nokogiri_object = Nokogiri::HTML(open(url).read)
     img_url = nokogiri_object.xpath('//div/p/img').first.values.detect { |i| i =~ /http/ }
     text = nokogiri_object.xpath('//header[contains(@class, \'entry-header\')]/h1').first.children.text.strip
-    send_message(data.channel, "*#{text}*\n#{img_url}")
+    send_message(data.channel, "*#{text}*\n#{img_url}\nafter")
   end
 end
