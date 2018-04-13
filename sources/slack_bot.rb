@@ -188,6 +188,7 @@ class SlackBot
       url = (FinalRedirectUrl.final_redirect_url('https://lesjoiesducode.fr/random').to_s rescue '') 
     end
     nokogiri_object = Nokogiri::HTML(open(url).read)
+    ap url
     ap nokogiri_object.xpath('//*/div[1]/p[2]/img')
     gif_url = nokogiri_object.xpath('//*/div[1]/p[2]/img').first.values[1]
     text = nokogiri_object.xpath('//*/h1').first.children.text.strip
