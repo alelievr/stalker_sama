@@ -189,8 +189,8 @@ class SlackBot
     end
     nokogiri_object = Nokogiri::HTML(open(url).read)
     ap url
-    ap nokogiri_object.xpath('//*/div[1]/p[2]/img')
-    gif_url = nokogiri_object.xpath('//*/div[1]/p[2]/img').first.values[1]
+    ap nokogiri_object.xpath('//*/div[1]/p/img')
+    gif_url = nokogiri_object.xpath('//*/div[1]/p/img').first.values[1]
     text = nokogiri_object.xpath('//*/h1').first.children.text.strip
     send_message(data.channel, text)
     send_message(data.channel, "/giphy #enhance #{gif_url}")
