@@ -185,12 +185,10 @@ class SlackBot
   def random_gif(data)
     url = ''
     while url == ''
-      url = (FinalRedirectUrl.final_redirect_url('https://lesjoiesducode.fr/random').to_s rescue '') 
+      url = (FinalRedirectUrl.final_redirect_url('https://lesjoiesducode.fr/random').to_s rescue '')
     end
     nokogiri_object = Nokogiri::HTML(open(url).read)
-    ap url
-    ap nokogiri_object.xpath('//*/div[1]/p/img')
-    gif_url = nokogiri_object.xpath('//*/div[1]/p/img').first.values.detect { |i| i =~ /http/}
+    gif_url = nokogiri_object.xpath('//*/div[1]/p/img').first.values.detect { |i| i =~ /http/ }
     text = nokogiri_object.xpath('//*/h1').first.children.text.strip
     send_message(data.channel, text)
     send_message(data.channel, gif_url)
