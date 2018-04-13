@@ -200,13 +200,12 @@ class SlackBot
 
     deck.shuffle!
     hash = { 11 => 'jack', 12 => 'queen', 13 => 'king', 14 => 'ace' }
-    hand.draw(deck, 1)
+    hand.draw(deck, 2)
     card = hand.first
     url = "https://raw.githubusercontent.com/hayeah/playing-cards-assets/master/png/#{card.to_i < 11 ? card.to_i.to_s : hash[card.to_i]}_of_#{card.suit.downcase}.png"
-    send_message(data.channel, url)
     card = hand.last
-    url = "https://raw.githubusercontent.com/hayeah/playing-cards-assets/master/png/#{card.to_i < 11 ? card.to_i.to_s : hash[card.to_i]}_of_#{card.suit.downcase}.png"
-    send_message(data.channel, url)
+    url2 = "https://raw.githubusercontent.com/hayeah/playing-cards-assets/master/png/#{card.to_i < 11 ? card.to_i.to_s : hash[card.to_i]}_of_#{card.suit.downcase}.png"
+    send_message(data.channel, "#{url}\n#{url2}")
   end
 
   def random_gif(data)
