@@ -5,7 +5,9 @@ require 'http'
 require 'final_redirect_url'
 require 'nokogiri'
 require 'open-uri'
+require 'rubycards'
 require_relative 'user_database.rb'
+include RubyCards
 
 class SlackBot
   def initialize
@@ -123,11 +125,13 @@ class SlackBot
       react(data, :unity) if rand(10) == 1
     when /U9B3RJWSU/  # ocarta-l
       react(data, :dark_sunglasses) if rand(10) == 1
+      react(data, :iex) if rand(10) == 1
     when /U9BPLMTAP/  # hmoussa
     when /U9B4EL3NC/  # flevesqu
       react(data, :octopus) if rand(10) == 1
     when /U9BTEQF7U/  # amerelo
       react(data, :amerelo) if rand(10) == 1
+      react(data, :rust) if rand(10) == 1
     when /U9JVBA32S/  # cadam
     when /U9CBJLGDT/  # vbauguen
       react(data, :patapon_animated) if rand(10) == 1
@@ -186,6 +190,16 @@ class SlackBot
 
   def react(data, name)
     @client.web_client.reactions_add(name: name, channel: data.channel, timestamp: data.ts, as_user: true)
+  end
+
+  def random_card(data)
+    hand = Hand.new
+    deck = Deck.new
+
+    deck.shuffle!
+
+    hand.draw(deck, 1)
+    send_message(data.channel, hand.first.to_s)
   end
 
   def random_gif(data)
