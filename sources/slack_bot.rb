@@ -159,6 +159,8 @@ class SlackBot
       random_commit(data)
     when /random quote/i
       random_quote(data)
+    when /random card/i
+      random_card(data)
     when /where.*you/i
       send_message(data.channel, 'In your back !')
     when /is.*weak.*\?/
