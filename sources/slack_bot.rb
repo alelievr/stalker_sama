@@ -151,6 +151,8 @@ class SlackBot
       random_gif(data)
     when /random commit/i
       random_commit(data)
+    when /random commitstrip/i
+      random_commitstrip(data)
     when /where.*you/i
       send_message(data.channel, 'In your back !')
     when /is.*weak.*\?/
@@ -200,5 +202,16 @@ class SlackBot
     nokogiri_object = Nokogiri::HTML(open(url).read)
     text = nokogiri_object.xpath('//*/p').first.text.strip
     send_message(data.channel, "*#{text}*")
+  end
+
+  def random_commit_strip(data)
+    url = ''
+    while url == ''
+      url = (FinalRedirectUrl.final_redirect_url('http://www.commitstrip.com/fr/random').to_s rescue '')
+    end
+    nokogiri_object = Nokogiri::HTML(open(url).read)
+    img_url = nokogiri_object.xpath('//div/p/img').first.values.detect { |i| i =~ /http/ }
+    text = nokogiri_object.xpath('//header[contains(@class, \'entry-header\')]/h1').first.children.text.strip
+    send_message(data.channel, "*#{text}*\n#{img_url}")
   end
 end
