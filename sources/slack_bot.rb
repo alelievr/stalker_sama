@@ -107,6 +107,8 @@ class SlackBot
       react(data, :coffee)
     when /rage quit/i
       react(data, :rage)
+	when /(shell|terminal|iterm|bash|zsh)/i
+	  react(data, :terminal)
     when /ah/i
       react(data, :ah)
     end
@@ -114,27 +116,31 @@ class SlackBot
     #User specific reactions:
     case data.user
     when /UA3BFSJ3X/  # frmarinh
-      react(data, :money_with_wings) if rand(10) == 1
+      react(data, :money_with_wings) if rand(6) == 1
     when /U9CQUF9BR/  # nboulaye
-      react(data, :shell) if rand(10) == 1
+      react(data, :terminal) if rand(8) == 1
     when /U9G62CJDQ/  # bbrunell
-      react(daat, :weak) if rand(10) == 1
+      react(daat, :weak) if rand(8) == 1
     when /U9B593R1N/  # bal-khan
-      react(data, :banana) if rand(10) == 1
+      react(data, :banana) if rand(6) == 1
     when /U9GUFLZ9N/  # alelievr
-      react(data, :unity) if rand(4) == 1
+      react(data, :unity) if rand(3) == 1
     when /U9B3RJWSU/  # ocarta-l
       react(data, :dark_sunglasses) if rand(10) == 1
       react(data, :iex) if rand(10) == 1
     when /U9BPLMTAP/  # hmoussa
     when /U9B4EL3NC/  # flevesqu
-      react(data, :octopus) if rand(10) == 1
+      react(data, :octopus) if rand(6) == 1
+      react(data, :cthulhu) if rand(6) == 1
+      react(data, :tantacles) if rand(6) == 1
     when /U9BTEQF7U/  # amerelo
       react(data, :amerelo) if rand(10) == 1
       react(data, :rust) if rand(10) == 1
     when /U9JVBA32S/  # cadam
     when /U9CBJLGDT/  # vbauguen
       react(data, :patapon_animated) if rand(10) == 1
+	when /UA6CRCFCZ/  # bciss
+	  react(data, :afro) if rand(4) == 1
     when /U9JMHP8HJ/  # dmoureu-
     when /U9JLL19KK/  # amoreilh
     when /U9N1Q4D9V/  # vdaviot
