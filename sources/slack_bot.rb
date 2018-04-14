@@ -122,7 +122,7 @@ class SlackBot
     when /U9B593R1N/  # bal-khan
       react(data, :banana) if rand(10) == 1
     when /U9GUFLZ9N/  # alelievr
-      react(data, :unity) if rand(10) == 1
+      react(data, :unity) if rand(4) == 1
     when /U9B3RJWSU/  # ocarta-l
       react(data, :dark_sunglasses) if rand(10) == 1
       react(data, :iex) if rand(10) == 1

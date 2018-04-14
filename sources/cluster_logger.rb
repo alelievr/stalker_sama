@@ -37,10 +37,16 @@ class ClusterLogger < Api42
   end
 
   def update_user(connected_infos, user, slack, db)
-    secs = Time.now - Time.parse(user[:last_connected])
     user_info = connected_infos.detect { |i| i[:login] == user[:login42] }
 
     return unless user_info
+
+    secs = 0
+	if user_info[:connected]
+		secs = Time.now - Time.parse(user_info[:begin_at])
+	else
+		secs = Time.parse(user_info[:end_at]) - Time.parse(user_info[:begin_at])
+	end
 
     opts = { secs: secs, seat: user_info[:seat] }
 
