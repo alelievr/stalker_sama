@@ -41,12 +41,7 @@ class ClusterLogger < Api42
 
     return unless user_info
 
-    secs = 0
-	if user_info[:connected]
-		secs = Time.now - Time.parse(user_info[:begin_at])
-	else
-		secs = Time.parse(user_info[:end_at]) - Time.parse(user_info[:begin_at])
-	end
+    secs = user_info[:connected] ? Time.now - Time.parse(user_info[:begin_at]) : Time.parse(user_info[:end_at]) - Time.parse(user_info[:begin_at])
 
     opts = { secs: secs, seat: user_info[:seat] }
 
