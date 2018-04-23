@@ -24,6 +24,7 @@ class SlackBot
 
     @client.on :message do |data|
       on_react(data)
+	  on_every_message(data)
       on_direct_message(data) if data.channel[0] == 'D'
       on_channel_message(data) if data.channel[0] == 'C'
     end
@@ -148,6 +149,15 @@ class SlackBot
     when /U9VC4R1TK/  # mconnat
     when /UA1SCLD7U/  # jguyet
     end
+  end
+
+  def on_every_message(data)
+	case data.text
+		when /\=\=/
+			send_message(data.channel, (rand(2) == 1) ? "true" : "false")
+	end
+
+
   end
 
   def on_direct_message(data)
