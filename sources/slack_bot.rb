@@ -225,7 +225,7 @@ class SlackBot
   end
 
   def random_gif(data)
-    nokogiri_object = nokogiri('https://lesjoiesducode.fr/random')
+    nokogiri_object = nokogiri('http://lesjoiesducode.tumblr.com/random')
     gif_url = nokogiri_object.xpath('//*/div[1]/p/img').first.values.detect { |i| i =~ /http/ }
     text = strip(nokogiri_object.xpath('//*/h1').first.children)
     send_message(data.channel, "*#{text}*\n#{gif_url}")
