@@ -24,7 +24,7 @@ class SlackBot
 
     @client.on :message do |data|
       on_react(data)
-	  on_every_message(data)
+      on_every_message(data)
       on_direct_message(data) if data.channel[0] == 'D'
       on_channel_message(data) if data.channel[0] == 'C'
     end
@@ -108,8 +108,8 @@ class SlackBot
       react(data, :coffee)
     when /rage quit/i
       react(data, :rage)
-	when /(shell|terminal|iterm|bash|zsh)/i
-	  react(data, :terminal)
+    when /(shell|terminal|iterm|bash|zsh)/i
+      react(data, :terminal)
     when /ah/i
       react(data, :ah)
     end
@@ -130,6 +130,7 @@ class SlackBot
       react(data, :dark_sunglasses) if rand(10) == 1
       react(data, :iex) if rand(10) == 1
     when /U9BPLMTAP/  # hmoussa
+      react(data, :ghost) if rand(6) == 1
     when /U9B4EL3NC/  # flevesqu
       react(data, :octopus) if rand(6) == 1
       react(data, :cthulhu) if rand(6) == 1
@@ -140,8 +141,8 @@ class SlackBot
     when /U9JVBA32S/  # cadam
     when /U9CBJLGDT/  # vbauguen
       react(data, :patapon_animated) if rand(10) == 1
-	when /UA6CRCFCZ/  # bciss
-	  react(data, :afro) if rand(4) == 1
+  when /UA6CRCFCZ/  # bciss
+    react(data, :afro) if rand(4) == 1
     when /U9JMHP8HJ/  # dmoureu-
     when /U9JLL19KK/  # amoreilh
     when /U9N1Q4D9V/  # vdaviot
@@ -152,10 +153,10 @@ class SlackBot
   end
 
   def on_every_message(data)
-	case data.text
-		when /\=\=/
-			send_message(data.channel, (rand(2) == 1) ? "true" : "false")
-	end
+  case data.text
+    when /\=\=/
+      send_message(data.channel, (rand(2) == 1) ? "true" : "false")
+  end
 
 
   end
