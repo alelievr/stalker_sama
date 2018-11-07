@@ -3,7 +3,7 @@
 		"hour": 2,
 		"messages": [
 			"{42_login} has left, his weakness has no limits ({time})",
-			"{42_login} diseppears, you're already leaving after {time} ?",
+			"{42_login} disappears, you're already leaving after {time} ?",
 			"{ping} disconnects, but you just arrived ! ({time})",
 			"{ping} has left, did you see him ? ({time})",
 			"{42_login} diseppears after {time}, shame !",
