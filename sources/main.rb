@@ -20,6 +20,7 @@ loop do
     projects_infos = project.get_infos(users_api42_ids)
   rescue Exception => e
     puts "En error occured: #{e.message}"
+    sleep 10
     next
   end
 

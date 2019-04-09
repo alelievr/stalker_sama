@@ -30,7 +30,6 @@ class ClusterLogger < Api42
         puts "An error occured in 42 API: #{e}"
         return []
       end
-      sleep 3
     end
 
     connected.uniq { |c| c[:login] }

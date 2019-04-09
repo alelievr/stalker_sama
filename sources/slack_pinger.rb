@@ -2,19 +2,18 @@ require 'slack-ruby-client'
 require 'json'
 
 def log_slack_pinger(infos, login42, slack_id, hash, message)
-  puts "infos -------------------------------------------------"
+  puts 'infos -------------------------------------------------'
   ap infos
-  puts "slack_id ----------------------------------------------"
+  puts 'slack_id ----------------------------------------------'
   ap slack_id
-  puts "login42 -----------------------------------------------"
+  puts 'login42 -----------------------------------------------'
   ap login42
-  puts "hash --------------------------------------------------"
+  puts 'hash --------------------------------------------------'
   ap hash
-  puts "message -----------------------------------------------"
+  puts 'message -----------------------------------------------'
   ap message
   puts "-------------------------------------------------------\n\n"
 end
-
 
 class SlackPinger
   CHAN = '#stalker'.freeze
@@ -62,10 +61,9 @@ class SlackPinger
 
   def humanize(secs)
     [[60, :seconds], [60, :minutes], [24, :hours], [1000, :days]].map do |count, name|
-      if secs > 0
-        secs, n = secs.divmod(count)
-        "#{n.to_i} #{name}"
-      end
+      next unless secs > 0
+      secs, n = secs.divmod(count)
+      "#{n.to_i} #{name}"
     end.compact.reverse.join(' ')
   end
 
@@ -82,7 +80,7 @@ class SlackPinger
       xp: opts[:xp]
     }
 
-	message = message.dup
+    message = message.dup
 
     hash.map do |key, value|
       message.gsub!("{#{key}}", value.to_s)
@@ -103,11 +101,6 @@ class SlackPinger
     send_message(format_message(quote, login42, slack_id, opts))
   end
 
-  def send_connected_message(login42, slack_id, opts = {})
-    quote = pick_random_from_hours(opts[:secs], @connect_quotes)
-    send_message(format_message(quote, login42, slack_id, opts))
-  end
-
   def send_disconnected_message(login42, slack_id, opts = {})
     quote = pick_random_from_hours(opts[:secs], @disconnect_quotes)
     send_message(format_message(quote, login42, slack_id, opts))
@@ -115,17 +108,15 @@ class SlackPinger
 
   def get_user_id(user_login)
     login = user_login
-  
+
     @client.users_list(presence: true, limit: 10) do |response|
-      res = response.members.detect { |r| r.profile.real_name == user_login || r.profile.display_name == user_login || r.name == user_login }
-      login = res.name unless res.nil?
+      res = response.members.detect { |r| [r.profile.real_name, r.profile.display_name, r.name].include? user_login }
       break unless res.nil?
+      login = res.name
     end
-    
+
     puts "Using slack name #{login}"
 
-    infos = @client.users_info(user: "@#{login}")
-
-    infos.user.id
+    @client.users_info(user: "@#{login}").user.id
   end
 end
