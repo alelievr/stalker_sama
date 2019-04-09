@@ -9,10 +9,7 @@ class ProjectLogger < Api42
     levels = []
     [1..10].map do |page|
       response = send_uri("#{endpoint}?filter[user_id]=#{user_list.join(',')}&cursus_id=1&page=#{page}")
-
       response.map { |data| levels.push(login: data['user']['login'], level: data['level']) }
-
-      sleep 3
     end
     levels
   end

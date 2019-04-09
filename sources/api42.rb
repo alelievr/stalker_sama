@@ -1,4 +1,4 @@
-require "oauth2"
+require 'oauth2'
 
 class Api42
   UID = ENV['API42_UID']
@@ -12,10 +12,12 @@ class Api42
   protected
 
   def send_uri(uri)
+    sleep(3)
     initialize if (Time.now.to_i - @token.expires_at).abs < 200
     response = @token.get(uri)
 
     throw "Bad api status: #{response.status}" unless response.status == 200
+
     response.parsed
   end
 end
