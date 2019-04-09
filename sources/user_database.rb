@@ -38,8 +38,7 @@ class UserDatabase
   end
 
   def get_users
-    @users = @db.from(USER_TABLE)
-
+    @users = @db.from(USER_TABLE).all
     @users.all
   end
 
@@ -53,6 +52,6 @@ class UserDatabase
   end
  
   def close
-	  @db.disconnect
+    @db.disconnect
   end
 end

@@ -153,12 +153,10 @@ class SlackBot
   end
 
   def on_every_message(data)
-  case data.text
-    when /\=\=/
-      send_message(data.channel, (rand(2) == 1) ? "true" : "false")
-  end
-
-
+    case data.text
+      when /\=\=/
+        send_message(data.channel, (rand(2) == 1) ? "true" : "false")
+    end
   end
 
   def on_direct_message(data)
